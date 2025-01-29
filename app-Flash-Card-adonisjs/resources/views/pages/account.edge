@@ -1,0 +1,31 @@
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Mon compte
+    </title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+  </head>
+  <body>
+    @include('partials/header')
+    <main>
+      <section class="account">
+        <h1>
+          Informations du compte
+        </h1>
+        <p>
+          Nom : John Doe
+        </p>
+        <p>
+          Email : johndoe
+          @example.com
+        </p>
+        <p>
+          Abonnement : Premium
+        </p>
+      </section>
+    </main>
+    @include('partials/footer')
+  </body>
+</html>
