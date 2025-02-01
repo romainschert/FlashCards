@@ -1,0 +1,163 @@
+/* Global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  /* Header */
+  header {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo {
+    width: 120px;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+  }
+  
+  nav ul li {
+    margin: 0 15px;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+  }
+  
+  nav ul li a:hover,
+  nav ul li a.active {
+    color: #f8d210;
+  }
+  
+  /* Main Content */
+  .main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 100px;  /* Ajoute de l'espace pour que les cartes ne soient pas collées au header */
+    height: 100vh; /* Assurer que la section prend toute la hauteur de l'écran */
+  }
+  
+  
+  /* Conteneur des cartes */
+.flashcard-container {
+  display: flex;
+  position:absolute;
+  top: 30%;
+  left: 30%;
+  flex-direction: row; /* Alignement horizontal des cartes */
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;
+  justify-content: center; /* Centrer horizontalement */
+  flex-wrap: wrap; /* Les cartes se réorganisent si l'écran est trop petit */
+  margin: 0 auto;
+}
+  
+  /* Flashcards Style */
+  .flashcard {
+    width: 250px;
+    height: 300px;
+    perspective: 1000px;
+    cursor: pointer;
+    transition: transform 0.5s ease-in-out;
+    margin: 0 auto;
+    position: relative; /* Important pour que le flip fonctionne */
+  }
+  
+  .flashcard .front, .flashcard .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    backface-visibility: hidden;
+    transition: transform 0.5s ease-in-out;
+    font-size: 1.3em;
+    text-align: center;
+  }
+  
+  /* Front face (Question) */
+  .flashcard .front {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  /* Back face (Answer) */
+  .flashcard .back {
+    background-color: #FFC107;
+    color: white;
+    transform: rotateY(180deg); /* Cache la face arrière au départ */
+  }
+  
+  /* Rotation pour le retournement */
+  .flashcard.flipped .front {
+    transform: rotateY(180deg); /* Retourne la face avant */
+  }
+  
+  .flashcard.flipped .back {
+    transform: rotateY(0deg); /* Retourne la face arrière */
+  }
+  
+  /* Effet hover */
+  .flashcard-container .flashcard:hover {
+    transform: scale(1.05);
+  }
+  
+  .flashcard-container {
+    transition: all 0.3s ease;
+  }
+  
+  .flashcard-container:hover .flashcard {
+    transform: translateY(-10px);
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: auto;
+    font-size: 1.1rem;
+  }
+  

@@ -1,0 +1,21 @@
+
+Journal de travail samedi : 01.02.2025
+
+Romain Schertenleib 
+(Le journal de travail est dans un bloc-notes, car à la base, j'utilisais GitJournal, mais il ne fonctionnait pas aujourd'hui sur mon ordinateur.)
+
+- (15min) Mise en place des logiciels, car je n'étais pas sur le même poste que d'habitude.
+	Il a donc fallu que j'installe GitHub, Visual Studio, etc.
+- (15min) J'ai essayé d'installer GitJournal sur le nouveau poste, mais cela ne fonctionnait pas.
+	J'ai donc essayé plusieurs méthodes, puis j'ai finalement laissé tomber pour rédiger ce journal de travail.
+- (30min) J'ai pris ce temps pour mettre en place l'environnement de travail.
+	Cela a pris plus de temps que prévu, car au début, la commande npm run dev ne fonctionnait pas.
+	J'ai donc dû chercher un peu avant que tout ne marche correctement.
+- (30min) J'ai refait tout le CSS et le HTML des pages déjà existantes pour obtenir quelque chose de plus propre
+	 et pour que ce soit plus simple de développer le backend par la suite.
+
+- (15min) pause de 9h35
+
+- (45min) J'ai créé toute la page d'inscription (register) et je l'ai liée au reste du code.
+
+- (15min) (15 min sur toute la matinée) remplire le journal de travail

@@ -6,23 +6,50 @@
     <title>
       Flash Cards
     </title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/flashcards.css', 'resources/js/app.js'])
   </head>
   <body>
     @include('partials/Headerconnect')
-    <main>
-      <section class="flashcards">
-        <h1>
-          Mes Flash Cards
-        </h1>
-        <div class="card">
-          Question : Qu'est-ce qu'AdonisJS ?<br />Réponse : Un framework Node.js MVC
+    <div class="flashcard-container">
+      <div class="flashcard" onclick="flipCard(this)">
+        <div class="front">
+          <h2>What is the capital of France?</h2>
         </div>
-        <div class="card">
-          Question : Quel langage utilise AdonisJS ?<br />Réponse : JavaScript / TypeScript
+        <div class="back">
+          <h2>Paris</h2>
         </div>
-      </section>
-    </main>
+      </div>
+  
+      <div class="flashcard" onclick="flipCard(this)">
+        <div class="front">
+          <h2>What is 2 + 2?</h2>
+        </div>
+        <div class="back">
+          <h2>4</h2>
+        </div>
+      </div>
+  
+      <div class="flashcard" onclick="flipCard(this)">
+        <div class="front">
+          <h2>Who wrote 'Romeo and Juliet'?</h2>
+        </div>
+        <div class="back">
+          <h2>William Shakespeare</h2>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Sélectionner toutes les cartes
+      const flashcards = document.querySelectorAll('.flashcard');
+    
+      // Ajouter un événement de clic à chaque carte
+      flashcards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Ajouter ou retirer la classe 'flipped' pour activer le retournement
+          card.classList.toggle('flipped');
+        });
+      });
+    </script>    
     @include('partials/footer')
     <script>
       fetch("header.html").then(response => response.text()).then(data => document.getElementById("header").innerHTML = data);

@@ -40,10 +40,7 @@ router.get('/account', async ({ view, session, response }: HttpContextContract) 
 })
 
 // Route pour afficher la page des flashcards (protégée)
-router.get('/flashcards', async ({ view, session, response }: HttpContextContract) => {
-  if (!session.get('loggedIn')) {
-    return response.redirect('/login')
-  }
+router.get('/flashcards', async ({ view}: HttpContextContract) => {
   return view.render('flashcards')
 })
 
