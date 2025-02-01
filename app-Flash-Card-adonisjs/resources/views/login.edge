@@ -1,0 +1,31 @@
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Connexion
+    </title>
+    @vite(['resources/css/login.css', 'resources/js/app.js'])
+  </head>
+  <body>
+    @include('partials/header')
+    <main class="login-main">
+      <section class="login-section">
+        <h1>Connexion</h1>
+        <p>Connectez-vous pour accéder à vos flashcards et gérer votre compte.</p>
+        <form action="/login" method="POST">
+          <div class="form-group">
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" placeholder="Votre email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" placeholder="Votre mot de passe" required>
+          </div>
+          <button type="submit" class="btn">Se connecter</button>
+        </form>
+      </section>
+    </main>
+    @include('partials/footer')
+  </body>
+</html>

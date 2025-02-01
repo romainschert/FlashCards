@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Flash-card Romain schertenleib
+    </title>
+    @vite(['resources/css/home.css', 'resources/js/app.js'])
+    @stack('dumper')
+  </head>
+  <body>
+    @include('partials/header')
+    <section class="hero">
+        <h1>Améliore ta mémoire avec des Flash Cards !</h1>
+        <p>Apprends plus efficacement avec notre méthode interactive et ludique.</p>
+        <a href="/flashcards" class="btn">Commencer maintenant</a>
+    </section>
+
+    <!-- Section Pourquoi ? -->
+    <section class="why">
+        <h2>Pourquoi utiliser Flash Cards ?</h2>
+        <div class="advantages">
+            <div class="advantage">
+                <img src="/icons/brain.png" alt="Mémoire">
+                <h3>Mémorisation rapide</h3>
+                <p>Utilise la répétition espacée pour apprendre plus efficacement.</p>
+            </div>
+            <div class="advantage">
+                <img src="/icons/fun.png" alt="Apprentissage fun">
+                <h3>Apprentissage ludique</h3>
+                <p>Transforme l'étude en un jeu interactif et motivant.</p>
+            </div>
+            <div class="advantage">
+                <img src="/icons/anywhere.png" alt="Partout">
+                <h3>Accessible partout</h3>
+                <p>Révise tes cartes sur mobile, tablette ou ordinateur.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Comment ça marche -->
+    <section class="how">
+        <h2>Comment ça marche ?</h2>
+        <div class="steps">
+            <div class="step">
+                <span>1</span>
+                <h3>Crée tes propres cartes</h3>
+                <p>Ajoute des questions et réponses personnalisées.</p>
+            </div>
+            <div class="step">
+                <span>2</span>
+                <h3>Révise régulièrement</h3>
+                <p>Utilise notre mode de répétition espacée pour progresser.</p>
+            </div>
+            <div class="step">
+                <span>3</span>
+                <h3>Teste tes connaissances</h3>
+                <p>Utilise le mode quiz pour t'entraîner efficacement.</p>
+            </div>
+        </div>
+    </section>
+    </div>
+    @include('partials/footer')
+  </body>
+</html>

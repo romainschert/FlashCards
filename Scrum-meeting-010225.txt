@@ -1,0 +1,10 @@
+Scrum Meeting - 01/02/2025
+
+1. Ce qui a été fait:
+Création des pages terminée.
+2. Ce qui est en cours:
+Développement des pages de connexion et du système de login.
+3. Blocages / Problèmes:
+Aucun problème majeur identifié pour le moment.
+4. Prochaines étapes
+Implémenter l'authentification des utilisateurs pour afficher les pages appropriées en fonction de l'état de connexion.

@@ -10,7 +10,7 @@ body {
   flex: 1;
 }
 .container {
-  width: 90%;
+  width:50%;
   margin: auto;
   display: flex;
   align-items: center;
