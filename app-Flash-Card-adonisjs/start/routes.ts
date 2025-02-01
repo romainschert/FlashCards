@@ -9,6 +9,7 @@
 
 import router from '@adonisjs/core/services/router'
 import { HttpContextContract } from '@adonisjs/'
+
 const testUser = {
   email: 'test@example.com',
   password: 'password123', // Mot de passe fictif
@@ -25,17 +26,9 @@ router.get('/login', async ({ view }: HttpContextContract) => {
   return view.render('login')
 })
 
-// Route pour gérer la connexion
-router.post('/login', async ({ request, response, session }: HttpContextContract) => {
-  const { email, password } = request.only(['email', 'password'])
 
-  if (email === testUser.email && password === testUser.password) {
-    session.put('loggedIn', true)
-    return response.redirect('/')
-  } else {
-    session.flash({ error: 'Identifiants incorrects' })
-    return response.redirect('/login')
-  }
+router.get('/register', async ({ view }) => {
+  return view.render('register')
 })
 
 // Route pour afficher la page de compte (protégée)
