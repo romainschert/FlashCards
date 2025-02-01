@@ -18,4 +18,4 @@ Romain Schertenleib
 
 - (45min) J'ai créé toute la page d'inscription (register) et je l'ai liée au reste du code.
 
-- (15min) (15 min sur toute la matinée) remplire le journal de travail
+- (15min) (15 minutes durant toute la deuxième partie de la matinée) remplire le journal de travail
