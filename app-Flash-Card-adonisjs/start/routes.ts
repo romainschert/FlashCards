@@ -8,7 +8,7 @@
 */
 
 import router from '@adonisjs/core/services/router'
-import { HttpContextContract } from '@adonisjs/core/build/standalone'
+import { Session } from 'inspector/promises'
 
 const testUser = {
   email: 'test@example.com',
@@ -16,35 +16,39 @@ const testUser = {
 }
 
 // Route pour afficher la page d'accueil
-router.get('/', async ({ view, session }: HttpContextContract) => {
+router.get('/', async ({ view, session }) => {
   const isAuthenticated = session.get('loggedIn')
   return view.render('home', { isAuthenticated })
 })
 // Route pour afficher la page de connexion
-router.get('/login', async ({ view }: HttpContextContract) => {
+router.get('/login', async ({ view }) => {
   return view.render('login')
 })
 router.get('/register', async ({ view }) => {
   return view.render('register')
 })
 // Route pour afficher la page de compte (protégée)
-router.get('/account', async ({ view, session, response }: HttpContextContract) => {
+router.get('/account', async ({ view, session, response }) => {
   if (!session.get('loggedIn')) {
     return response.redirect('/login')
   }
   return view.render('account')
 })
 // Route pour afficher la page des flashcards (protégée)
-router.get('/flashcards', async ({ view }: HttpContextContract) => {
+router.get('/flashcards', async ({ view, session, response }) => {
+  if (!session.get('loggedIn')) {
+    return response.redirect('/login')
+  }
   return view.render('flashcards')
 })
 // Route pour se déconnecter
-router.get('/logout', async ({ session, response }: HttpContextContract) => {
-  session.forget('loggedIn')
+router.get('/logout', async ({ auth, response, session }) => {
+  await auth.use('web').logout()
+  session.clear()
   return response.redirect('/')
 })
 
-router.post('/login', async ({ request, response, session }: HttpContextContract) => {
+router.post('/login', async ({ request, response, session }) => {
   // Récupération des données du formulaire
   console.log('bonjour')
   const { email, password } = request.only(['email', 'password'])
