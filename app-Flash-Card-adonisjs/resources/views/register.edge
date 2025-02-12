@@ -10,32 +10,44 @@
   <body>
     @include('partials/header')
     <main class="register-main">
-        <section class="register-section">
-          <h1>Inscription</h1>
-          <p>Créez votre compte pour accéder à toutes les fonctionnalités.</p>
+      <section class="register-section">
+        <h1>
+          Inscription
+        </h1>
+        <p>
+          Créez votre compte pour accéder à toutes les fonctionnalités.
+        </p>
 
-          <form action="/register" method="POST">
-            <div class="form-group">
-              <label for="name">Nom complet :</label>
-              <input type="text" id="name" name="name" placeholder="Votre nom complet" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email :</label>
-              <input type="email" id="email" name="email" placeholder="Votre email" required>
-            </div>
-            <div class="form-group">
-              <label for="password">Mot de passe :</label>
-              <input type="password" id="password" name="password" placeholder="Votre mot de passe" required>
-            </div>
-            <div class="form-group">
-              <label for="password_confirmation">Confirmez le mot de passe :</label>
-              <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirmez votre mot de passe" required>
-            </div>
-            <button type="submit" class="btn">S'inscrire</button>
-          </form>
-          <p class="redirect">Déjà inscrit ? <a href="/login">Connectez-vous ici</a>.</p>
-        </section>
-      </main>
+        <form action="/register" method="POST">
+          <div class="form-group">
+            <label for="full_name">Nom complet :</label>
+            <input type="text" id="full_name" name="full_name" placeholder="Votre nom complet" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" placeholder="Votre email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" placeholder="Votre mot de passe" required />
+          </div>
+          <div class="form-group">
+            <label for="password_confirmation">Confirmez le mot de passe :</label>
+            <input
+              type="password"
+              id="password_confirmation"
+              name="password_confirmation"
+              placeholder="Confirmez votre mot de passe"
+              required
+            />
+          </div>
+          <button type="submit" class="btn">S'inscrire</button>
+        </form>
+        <p class="redirect">
+          Déjà inscrit ? <a href="/login">Connectez-vous ici</a>.
+        </p>
+      </section>
+    </main>
     @include('partials/footer')
   </body>
 </html>

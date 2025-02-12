@@ -9,6 +9,8 @@
 
 import router from '@adonisjs/core/services/router'
 import { Session } from 'inspector/promises'
+import RegisterUsersController from '../app/controllers/register_users_controller.js'
+import LoginController from '../app/controllers/login_users_controller.js'
 
 const testUser = {
   email: 'test@example.com',
@@ -19,6 +21,10 @@ const testUser = {
 router.get('/', async ({ view, session }) => {
   const isAuthenticated = session.get('loggedIn')
   return view.render('home', { isAuthenticated })
+})
+router.get('/home', async ({ view, session }) => {
+  const isAuthenticated = session.get('loggedIn')
+  return view.render('home-connect', { isAuthenticated })
 })
 // Route pour afficher la page de connexion
 router.get('/login', async ({ view }) => {
@@ -48,7 +54,7 @@ router.get('/logout', async ({ auth, response, session }) => {
   return response.redirect('/')
 })
 
-router.post('/login', async ({ request, response, session }) => {
+/*router.post('/login', async ({ request, response, session }) => {
   // Récupération des données du formulaire
   console.log('bonjour')
   const { email, password } = request.only(['email', 'password'])
@@ -66,3 +72,6 @@ router.post('/login', async ({ request, response, session }) => {
     return response.redirect('back')
   }
 })
+*/
+router.post('/register', [RegisterUsersController, 'register'])
+router.post('/login', [LoginController, 'login'])
