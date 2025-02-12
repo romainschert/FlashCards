@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@adonisjs/hash": "^9.0.5"
+  }
+}
