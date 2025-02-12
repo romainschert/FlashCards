@@ -14,13 +14,28 @@ export default class LoginController {
     }
 
     try {
-      // Vérification des informations d'identification avec verifyCredentials
-      await auth.attempt(email, password) // Utilisation de verifyCredentials dans `auth.attempt`
+      // Vérification si l'utilisateur existe dans la base de données
+      const user = await User.findBy('email', email)
+
+      // Si l'utilisateur n'existe pas
+      if (!user) {
+        session.flash({ error: 'Aucun utilisateur trouvé avec cet email.' })
+        return response.redirect('back') // Rediriger si l'utilisateur n'existe pas
+      }
+
+      // Si l'utilisateur existe, tenter de l'authentifier
+      await auth.attempt(email, password) // Authentifie l'utilisateur avec les informations fournies
 
       // Connexion réussie
       session.flash({ success: 'Connexion réussie' })
+
+      // Vous pouvez récupérer l'utilisateur actuel via auth.user si nécessaire
+      const userId = auth.user?.id // Récupérer l'ID de l'utilisateur connecté
+
+      // Sauvegarder l'utilisateur et son état dans la session
       session.put('loggedIn', true)
-      session.put('userId', 1)
+      session.put('userId', userId)
+
       // Redirection vers la page des flashcards
       return response.redirect('/flashcards')
     } catch (error) {
