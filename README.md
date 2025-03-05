@@ -1,6 +1,6 @@
 # Flash-Card_RomainSchertenleib
 
-crée uen application pour faire des flashcards
+crée une application pour faire des flashcards
 
 ## Logiciel requis
 
