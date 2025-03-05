@@ -17,32 +17,64 @@
         <p>
           Créez votre compte pour accéder à toutes les fonctionnalités.
         </p>
+        <form id="inscription-form" method="POST" action="/register">
+          <!-- Champ Nom d'utilisateur -->
+          <div class="form-group">
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" required />
+            @if(session.has('errors.username'))
+              <p class="error">
+                {{ session.get('errors.username') }}
+              </p>
+            @endif
+          </div>
 
-        <form action="/register" method="POST">
+          <!-- Champ Email -->
           <div class="form-group">
-            <label for="full_name">Nom complet :</label>
-            <input type="text" id="full_name" name="full_name" placeholder="Votre nom complet" required />
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+            @if(session.has('errors.email'))
+              <p class="error">
+                {{ session.get('errors.email') }}
+              </p>
+            @endif
           </div>
+
+          <!-- Champ Mot de passe -->
           <div class="form-group">
-            <label for="email">Email :</label>
-            <input type="email" id="email" name="email" placeholder="Votre email" required />
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" required />
           </div>
+
+          <!-- Champ Confirmer Mot de passe -->
           <div class="form-group">
-            <label for="password">Mot de passe :</label>
-            <input type="password" id="password" name="password" placeholder="Votre mot de passe" required />
+            <label for="password_confirmation">Confirmer le mot de passe</label>
+            <input type="password" id="password_confirmation" name="password_confirmation" required />
           </div>
-          <div class="form-group">
-            <label for="password_confirmation">Confirmez le mot de passe :</label>
-            <input
-              type="password"
-              id="password_confirmation"
-              name="password_confirmation"
-              placeholder="Confirmez votre mot de passe"
-              required
-            />
-          </div>
-          <button type="submit" class="btn">S'inscrire</button>
+
+          <!-- Bouton Inscription (caché par défaut) -->
+          <button type="submit" id="submit-btn" class="btn" style="visibility: hidden;" disabled>Inscription</button>
         </form>
+
+        <script>
+          document.getElementById("inscription-form").addEventListener("input", function() {
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const passwordConfirmation = document.getElementById("password_confirmation").value;
+            // Expression régulière pour vérifier le format de l'email
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            // Activer le bouton uniquement si tous les champs sont valides
+            if (username && emailRegex.test(email) && password.length >= 8 && password === passwordConfirmation) {
+              document.getElementById("submit-btn").style.visibility = "visible"; // Rendre le bouton visible
+              document.getElementById("submit-btn").disabled = false;
+            } else {
+              document.getElementById("submit-btn").style.visibility = "hidden"; // Cacher le bouton
+              document.getElementById("submit-btn").disabled = true;
+            }
+          });
+        </script>
+
         <p class="redirect">
           Déjà inscrit ? <a href="/login">Connectez-vous ici</a>.
         </p>

@@ -57,7 +57,7 @@ router.post('/login', async ({ request, response, session, auth }) => {
 
   const { email, password } = request.only(['email', 'password'])
 
-  console.log(email, password)
+  console.log(email, password, session)
   // Vérification des identifiants avec testUser
   try {
     const user = await User.verifyCredentials(email, password)
@@ -73,4 +73,29 @@ router.post('/login', async ({ request, response, session, auth }) => {
     return response.redirect('back')
   }
 })
-router.post('/register', [RegisterUsersController, 'register'])
+router.post('/register', async ({ request, response, session, auth }) => {
+  const data = request.only(['full_name', 'email', 'password'])
+
+  const emailExists = await User.query().where('email', data.email).first()
+  if (emailExists) {
+    session.flash('errors', { email: "L'email est déjà utilisé" })
+    return response.redirect('back')
+  }
+
+  // Vérifier si le nom d'utilisateur existe déjà dans la base de données
+  const userExists = await User.query().where('username', data.full_name).first()
+  if (userExists) {
+    session.flash('errors', { username: "Nom d'utilisateur déjà pris" })
+    return response.redirect('back')
+  }
+
+  // Créer et enregistrer le nouvel utilisateur
+  const user = new User()
+  user.full_name = data.full_name
+  user.email = data.email
+  user.password = data.password // Hachage du mot de passe avant de le sauvegarder
+
+  await user.save() // Enregistrer l'utilisateur dans la base de données
+
+  return response.redirect('/login') // Redirection après succès
+})

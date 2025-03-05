@@ -10,14 +10,15 @@ export default class RegisterUsersController {
   }
 
   // Cette méthode enregistre un utilisateur
-  public async register({ request, response }: HttpContextContract) {
+  public async register({ request, response, session }: HttpContextContract) {
     // Récupérer les données envoyées par le formulaire
     const data = request.only(['full_name', 'email', 'password'])
 
     // Vérifier si l'email est déjà pris
-    const userExists = await User.findBy('email', data.email)
-    if (userExists) {
-      return response.badRequest({ message: 'Email déjà utilisé' })
+    const emailExists = await User.findBy('email', data.email)
+    if (emailExists) {
+      response.json({ message: 'Email déjà pris' })
+      return response.redirect('/register')
     }
 
     // Créer et enregistrer le nouvel utilisateur
