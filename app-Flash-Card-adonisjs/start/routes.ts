@@ -9,13 +9,10 @@
 
 import router from '@adonisjs/core/services/router'
 import { Session } from 'inspector/promises'
+import vine from '@vinejs/vine'
 import RegisterUsersController from '../app/controllers/register_users_controller.js'
-import LoginController from '../app/controllers/login_users_controller.js'
-
-const testUser = {
-  email: 'test@example.com',
-  password: 'password123', // Mot de passe fictif
-}
+import type { HttpContext } from '@adonisjs/core/http'
+import User from '#models/user'
 
 // Route pour afficher la page d'accueil
 router.get('/', async ({ view, session }) => {
@@ -42,6 +39,7 @@ router.get('/account', async ({ view, session, response }) => {
 })
 // Route pour afficher la page des flashcards (protégée)
 router.get('/flashcards', async ({ view, session, response }) => {
+  console.log('loggedIn')
   if (!session.get('loggedIn')) {
     return response.redirect('/login')
   }
@@ -54,24 +52,25 @@ router.get('/logout', async ({ auth, response, session }) => {
   return response.redirect('/')
 })
 
-/*router.post('/login', async ({ request, response, session }) => {
+router.post('/login', async ({ request, response, session, auth }) => {
   // Récupération des données du formulaire
-  console.log('bonjour')
+
   const { email, password } = request.only(['email', 'password'])
 
+  console.log(email, password)
   // Vérification des identifiants avec testUser
-  if (email === testUser.email && password === testUser.password) {
+  try {
+    const user = await User.verifyCredentials(email, password)
+    await auth.use('web').login(user)
     // On simule la connexion en stockant dans la session
     session.put('loggedIn', true)
     session.put('userId', 1)
     // Redirection vers la page des flashcards
+    console.log('Connexion réussie pour:', email)
     return response.redirect('/flashcards')
-  } else {
-    // En cas d'erreur, flash d'un message et redirection vers la page précédente
-    session.flash({ error: 'Identifiants incorrects.' })
+  } catch {
+    console.log('Échec de connexion : Email ou mot de passe incorrect')
     return response.redirect('back')
   }
 })
-*/
 router.post('/register', [RegisterUsersController, 'register'])
-router.post('/login', [LoginController, 'login'])
