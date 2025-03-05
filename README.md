@@ -16,7 +16,7 @@ Cloner le repo
 
 ```
 git clone https://github.com/romainschert/FlashCards.git
-cd ./FlashCards/src
+cd ./FlashCards/app-Flash-Card-adonisjs
 ```
 
 Renommer .env.example en .env
