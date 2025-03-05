@@ -27,15 +27,10 @@ installer les dépendances:
 npm install
 ```
 
-Ensuite génerer la clé:
+pour finir executer les deux dernière commande
 
 ```
 node ace generate:key
-```
-
-Puis lancer le serveur:
-
-```
 npm run dev
 ```
 
