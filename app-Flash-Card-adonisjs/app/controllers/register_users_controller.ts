@@ -17,8 +17,8 @@ export default class RegisterUsersController {
     // Vérifier si l'email est déjà pris
     const emailExists = await User.findBy('email', data.email)
     if (emailExists) {
-      response.json({ message: 'Email déjà pris' })
-      return response.redirect('/register')
+      session.flash({ notification: 'Email déjà pris' })
+      response.redirect('/register')
     }
 
     // Créer et enregistrer le nouvel utilisateur

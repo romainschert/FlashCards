@@ -76,19 +76,12 @@ router.post('/login', async ({ request, response, session, auth }) => {
 router.post('/register', async ({ request, response, session, auth }) => {
   const data = request.only(['full_name', 'email', 'password'])
 
-  const emailExists = await User.query().where('email', data.email).first()
+  const emailExists = await User.findBy('email', data.email)
   if (emailExists) {
-    session.flash('errors', { email: "L'email est déjà utilisé" })
-    return response.redirect('back')
+    session.flash({ notification: 'Email déjà pris' })
+    session.put('errors.email', 'email')
+    return response.redirect('/register')
   }
-
-  // Vérifier si le nom d'utilisateur existe déjà dans la base de données
-  const userExists = await User.query().where('username', data.full_name).first()
-  if (userExists) {
-    session.flash('errors', { username: "Nom d'utilisateur déjà pris" })
-    return response.redirect('back')
-  }
-
   // Créer et enregistrer le nouvel utilisateur
   const user = new User()
   user.full_name = data.full_name

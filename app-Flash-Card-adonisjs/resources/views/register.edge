@@ -17,16 +17,12 @@
         <p>
           Créez votre compte pour accéder à toutes les fonctionnalités.
         </p>
+
         <form id="inscription-form" method="POST" action="/register">
           <!-- Champ Nom d'utilisateur -->
           <div class="form-group">
             <label for="username">Nom d'utilisateur</label>
             <input type="text" id="username" name="username" required />
-            @if(session.has('errors.username'))
-              <p class="error">
-                {{ session.get('errors.username') }}
-              </p>
-            @endif
           </div>
 
           <!-- Champ Email -->
