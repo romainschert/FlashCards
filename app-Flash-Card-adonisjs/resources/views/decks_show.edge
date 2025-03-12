@@ -11,13 +11,22 @@
   <body>
     @include('partials/headerconnect')
     <div class="container">
-      <h1>
-        Mes Decks
-      </h1>
+      @each(deck in decks)
+        <h1>
+          Decks {{ deck.name}}
+        </h1>
+      @end
+      
+      @each(deck in decks)
+        <!-- Bouton Ajouter -->
 
-      <!-- Bouton Ajouter -->
-      <a href="/decks/new" class="btn btn-primary">+ Ajouter un Deck</a>
-
+        <a
+          onClick="return confirm(`Voulez-vous vraiment supprimer le deck {{ deck.name }} ?`)"
+          href='/decks/{{ deck.id }}/delete'
+          class="btn btn-primary"
+        >deleted</a>
+        <a href='/decks/{{ deck.id }}/edit' class="btn btn-primary">update</a>
+      @end
       <!-- Liste des decks -->
       <table class="deck-table">
         <thead>

@@ -80,9 +80,10 @@ router.post('/register', async ({ request, response, session, auth }) => {
   const emailExists = await User.findBy('email', data.email)
   if (emailExists) {
     session.flash({ notification: 'Email déjà pris' })
-    session.put('errors.email', 'email')
+    session.put('errors.email', 'Erreur email deja pris')
     return response.redirect('/register')
   }
+  session.put('errors.email', '')
   // Créer et enregistrer le nouvel utilisateur
   const user = new User()
   user.full_name = data.full_name
@@ -101,17 +102,17 @@ router.group(() => {
   router.get('/decks/new', [DecksController, 'create'])
 
   // Enregistrer un nouveau deck
-  router.post('/decks', 'DecksController.store')
+  router.post('/decks', [DecksController, 'store'])
 
   // Afficher un deck spécifique
-  router.get('/decks/:id', 'DecksController.show')
+  router.get('/decks/:id', [DecksController, 'show'])
 
   // Afficher le formulaire de modification
-  router.get('/decks/:id/edit', 'DecksController.edit')
+  router.get('/decks/:id/edit', [DecksController, 'edit'])
 
   // Mettre à jour un deck
-  router.post('/decks/:id/update', 'DecksController.update')
+  router.post('/decks/:id/update', [DecksController, 'update'])
 
   // Supprimer un deck
-  router.get('/decks/:id/delete', 'DecksController.destroy')
+  router.get('/decks/:id/delete', [DecksController, 'destroy'])
 })

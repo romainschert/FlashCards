@@ -9,97 +9,100 @@ export default class DecksController {
   }
 
   // Afficher le formulaire de création
-  public async create({ view }: HttpContextContract) {
-    return view.render('decks/new')
+  public async create({ view }: HttpContext) {
+    return view.render('decks_created')
   }
 
   // Enregistrer un nouveau deck
-  public async store({ request, auth, response, session }: HttpContextContract) {
-    const user = auth.user!
-    const data = request.only(['title', 'description'])
+  public async store({ request, response, session }: HttpContext) {
+    const { name, description } = request.only(['name', 'description'])
 
-    // Vérification des conditions
-    if (data.description.length < 10) {
-      session.flash({ error: 'La description doit contenir au moins 10 caractères.' })
-      return response.redirect().back()
-    }
-
-    const existingDeck = await Deck.query()
-      .where('user_id', user.id)
-      .andWhere('title', data.title)
-      .first()
-
+    const existingDeck = await Deck.findBy('name', name)
     if (existingDeck) {
-      session.flash({ error: 'Un deck avec ce titre existe déjà.' })
+      session.flash({ error: 'Le nom du deck existe déjà.' })
+      session.put('errors.created_name', 'Erreur name deja utilisé')
       return response.redirect().back()
     }
-
-    await Deck.create({
-      userId: user.id,
-      title: data.title,
-      description: data.description,
+    session.put('errors.created_name', '')
+    if (description.length < 10) {
+      session.flash({ error: 'La description doit contenir au moins 10 caractères.' })
+      session.put(
+        'errors.created_desc',
+        'Erreur la description doit contenir au moins 10 caractères'
+      )
+      return response.redirect().back()
+    }
+    session.put('errors.created_desc', '')
+    const deck = await Deck.create({
+      name,
+      description,
     })
-
-    return response.redirect('/decks')
+    // Redirect to the newly created deck's page
+    return response.redirect(`/decks`)
   }
 
   // Afficher un deck spécifique
-  public async show({ params, auth, view, response }: HttpContextContract) {
-    const user = auth.user!
-    const deck = await Deck.query().where('id', params.id).andWhere('user_id', user.id).first()
+  public async show({ params, view, response }: HttpContext) {
+    const decks = await Deck.query().where('id', params.id)
 
-    if (!deck) {
+    if (!decks) {
       return response.redirect('/decks')
     }
 
-    return view.render('decks/show', { deck })
+    return view.render('decks_show', { decks })
   }
 
   // Afficher le formulaire d'édition
-  public async edit({ params, auth, view, response }: HttpContextContract) {
-    const user = auth.user!
-    const deck = await Deck.query().where('id', params.id).andWhere('user_id', user.id).first()
+  public async edit({ params, view, response }: HttpContext) {
+    const decks = await Deck.query().where('id', params.id)
 
-    if (!deck) {
+    if (!decks) {
       return response.redirect('/decks')
     }
 
-    return view.render('decks/edit', { deck })
+    return view.render('decks_edit', { decks })
   }
 
   // Mettre à jour un deck
-  public async update({ params, request, auth, response, session }: HttpContextContract) {
-    const user = auth.user!
-    const deck = await Deck.query().where('id', params.id).andWhere('user_id', user.id).first()
+  public async update({ params, request, response, session }: HttpContext) {
+    // Récupérer le deck à mettre à jour
+    const deck = await Deck.findOrFail(params.id)
 
-    if (!deck) {
-      return response.redirect('/decks')
-    }
+    // Récupérer les données du formulaire
+    const { name, description } = request.only(['name', 'description'])
 
-    const data = request.only(['title', 'description'])
-
-    if (data.description.length < 10) {
-      session.flash({ error: 'La description doit contenir au moins 10 caractères.' })
+    // Vérifier si un autre deck avec le même nom existe
+    const existingDeck = await Deck.query().where('name', name).whereNot('id', params.id).first()
+    if (existingDeck) {
+      session.flash({ error: 'Le nom du deck existe déjà.' })
+      session.put('errors.updated_name', 'Erreur name deja utilisé')
       return response.redirect().back()
     }
+    session.put('errors.updated_name', '')
+    // Vérifier la longueur de la description
+    if (description.length < 10) {
+      session.flash({ error: 'La description doit contenir au moins 10 caractères.' })
+      session.put(
+        'errors.updated_desc',
+        'Erreur la description doit contenir au moins 10 caractères'
+      )
+      return response.redirect().back()
+    }
+    session.put('errors.updated_desc', '')
+    // Mettre à jour les propriétés du deck
+    deck.name = name
+    deck.description = description
 
-    deck.merge({
-      title: data.title,
-      description: data.description,
-    })
-
+    // Sauvegarder les modifications
     await deck.save()
+
+    // Rediriger vers la page des decks
     return response.redirect('/decks')
   }
 
   // Supprimer un deck
-  public async destroy({ params, auth, response }: HttpContextContract) {
-    const user = auth.user!
-    const deck = await Deck.query().where('id', params.id).andWhere('user_id', user.id).first()
-
-    if (!deck) {
-      return response.redirect('/decks')
-    }
+  public async destroy({ params, response }: HttpContext) {
+    const deck = await Deck.findOrFail(params.id)
 
     await deck.delete()
     return response.redirect('/decks')
