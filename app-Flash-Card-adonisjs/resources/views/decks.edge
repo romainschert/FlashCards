@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Mes Decks
+    </title>
+    @vite(['resources/css/decks.css', 'resources/js/app.js'])
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Mes Decks
+      </h1>
+
+      <!-- Bouton Ajouter -->
+      <a href="/decks/new" class="btn btn-primary">+ Ajouter un Deck</a>
+
+      <!-- Liste des decks -->
+      <table class="deck-table">
+        <thead>
+          <tr>
+            <th>
+              Titre
+            </th>
+            <th>
+              Description
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @each(deck in decks)
+            <tr class="deck-item" onclick="location.href='/decks/{{ deck.id }}'">
+              <td>
+                {{ deck.title }}
+              </td>
+              <td>
+                {{ deck.description }}
+              </td>
+            </tr>
+          @else
+            <tr>
+              <td colspan="2" class="empty-message">
+                Aucun deck disponible
+              </td>
+            </tr>
+          @end
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

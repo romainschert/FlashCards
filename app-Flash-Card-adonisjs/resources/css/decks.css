@@ -1,0 +1,76 @@
+/* Style général */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+/* Conteneur principal */
+.container {
+  width: 80%;
+  margin: 50px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre */
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+/* Bouton Ajouter */
+.btn-primary {
+  display: block;
+  width: fit-content;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Table */
+.deck-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.deck-table th,
+.deck-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.deck-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Style des lignes */
+.deck-item {
+  cursor: pointer;
+  background-color: white;
+}
+
+.deck-item:hover {
+  background-color: #f1f1f1;
+}
+
+/* Message quand aucun deck n'est disponible */
+.empty-message {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+}

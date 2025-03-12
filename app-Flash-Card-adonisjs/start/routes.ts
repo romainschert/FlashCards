@@ -12,6 +12,7 @@ import { Session } from 'inspector/promises'
 import vine from '@vinejs/vine'
 import RegisterUsersController from '../app/controllers/register_users_controller.js'
 import type { HttpContext } from '@adonisjs/core/http'
+import DecksController from '../app/controllers/DecksController.js'
 import User from '#models/user'
 
 // Route pour afficher la page d'accueil
@@ -91,4 +92,26 @@ router.post('/register', async ({ request, response, session, auth }) => {
   await user.save() // Enregistrer l'utilisateur dans la base de données
 
   return response.redirect('/login') // Redirection après succès
+})
+router.group(() => {
+  // Afficher la liste des decks
+  router.get('/decks', [DecksController, 'index'])
+
+  // Afficher le formulaire de création
+  router.get('/decks/new', [DecksController, 'create'])
+
+  // Enregistrer un nouveau deck
+  router.post('/decks', 'DecksController.store')
+
+  // Afficher un deck spécifique
+  router.get('/decks/:id', 'DecksController.show')
+
+  // Afficher le formulaire de modification
+  router.get('/decks/:id/edit', 'DecksController.edit')
+
+  // Mettre à jour un deck
+  router.post('/decks/:id/update', 'DecksController.update')
+
+  // Supprimer un deck
+  router.get('/decks/:id/delete', 'DecksController.destroy')
 })
