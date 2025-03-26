@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrfToken }}" />
+    <link rel="stylesheet" href="/resources/css/deck.css" />
+    <title>
+      Add Flashcard
+    </title>
+    @vite(['resources/css/flashcards_create.css', 'resources/js/app.js'])
+  </head>
+  <body>
+    @include('partials/Headerconnect')
+
+    <div class="container">
+      <h1>
+        Add a Flashcard
+      </h1>
+
+      <!-- Display flash messages -->
+      @if (session.has('error'))
+        <div class="alert alert-danger">
+          {{ session.get('error') }}
+        </div>
+      @endif
+      
+      <form action="/decks/{{ deck.id }}/flashcards" method="POST" class="deck-form">
+        {{ csrfField }}
+
+        <label for="question">Question:</label>
+        <input type="text" name="question" id="question" required />
+
+        <label for="answer">Answer:</label>
+        <textarea name="answer" id="answer" required></textarea>
+
+        <div class="button-group">
+          <button type="submit" class="auth-button">Add Flashcard</button>
+          <a href="/decks/{{ deck.id }}" class="cancel-button">Cancel</a>
+        </div>
+      </form>
+    </div>
+
+    @include('partials/Footer')
+  </body>
+</html>

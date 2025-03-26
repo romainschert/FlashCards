@@ -13,6 +13,7 @@ import vine from '@vinejs/vine'
 import RegisterUsersController from '../app/controllers/register_users_controller.js'
 import type { HttpContext } from '@adonisjs/core/http'
 import DecksController from '../app/controllers/DecksController.js'
+import FlashcardsController from '../app/controllers/flashcard_controller.js'
 import User from '#models/user'
 
 // Route pour afficher la page d'accueil
@@ -105,7 +106,7 @@ router.group(() => {
   router.post('/decks', [DecksController, 'store'])
 
   // Afficher un deck spécifique
-  router.get('/decks/:id', [DecksController, 'show'])
+  router.get('/decks/:id', [DecksController, 'show']).as('decks.show')
 
   // Afficher le formulaire de modification
   router.get('/decks/:id/edit', [DecksController, 'edit'])
@@ -116,3 +117,7 @@ router.group(() => {
   // Supprimer un deck
   router.get('/decks/:id/delete', [DecksController, 'destroy'])
 })
+
+router.post('/decks/:id/flashcards', [FlashcardsController, 'create'])
+
+router.get('/decks/:id/flashcards/create', [FlashcardsController, 'index'])

@@ -5,12 +5,12 @@ export default class DecksController {
   // Afficher la liste des decks
   public async index({ view }: HttpContext) {
     const decks = await Deck.all() // Fetch all decks from the database
-    return view.render('decks', { decks })
+    return view.render('decks/decks.edge', { decks })
   }
 
   // Afficher le formulaire de création
   public async create({ view }: HttpContext) {
-    return view.render('decks_created')
+    return view.render('decks/decks_created')
   }
 
   // Enregistrer un nouveau deck
@@ -49,7 +49,7 @@ export default class DecksController {
       return response.redirect('/decks')
     }
 
-    return view.render('decks_show', { decks })
+    return view.render('decks/decks_show', { decks })
   }
 
   // Afficher le formulaire d'édition
@@ -60,7 +60,7 @@ export default class DecksController {
       return response.redirect('/decks')
     }
 
-    return view.render('decks_edit', { decks })
+    return view.render('decks/decks_edit', { decks })
   }
 
   // Mettre à jour un deck
