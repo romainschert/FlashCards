@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Flashcard Details
+    </title>
+    <link rel="stylesheet" href="/resources/css/flashcard-detail.css" />
+  </head>
+  <body>
+
+    <!-- Header section (Include header partial) -->
+    @include('partials/Headerconnect')
+
+    <!-- Flashcard Detail Container -->
+    <div class="container">
+      <!-- Flashcard Flip -->
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front">
+            <strong>Question:</strong>
+            <p>
+              {{ flashcard.question }}
+            </p>
+          </div>
+          <div class="flashcard-back">
+            <strong>Answer:</strong>
+            <p>
+              {{ flashcard.answer }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flashcard-actions">
+        <a
+          href="/decks/{{ deck.id}}/flashcards/{{ flashcard.id}}/edit"
+          class="action-button"
+        >Edit</a>
+
+      <!-- Back Button to go back to Deck -->
+      <a href="/decks/{{deck.id}}" class="back-button">Back to Deck</a>
+    </div>
+
+    <!-- Footer section (Include footer partial) -->
+    @include('partials/footer')
+
+    <!-- JavaScript to handle delete -->
+    <script>
+      document.querySelector(".delete-flashcard-button").addEventListener("click", function() {
+        const deckId = this.getAttribute("data-deck-id");
+        const flashcardId = this.getAttribute("data-flashcard-id");
+        // Confirm with the user before deletion
+        const confirmation = confirm("Are you sure you want to delete this flashcard?");
+        if (confirmation) {
+          // Sending DELETE request via fetch API
+          fetch(`/decks/${deckId}/flashcards/${flashcardId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRF-TOKEN": "{{ csrfToken }}"
+            }
+          }).then(response => {
+            if (response.ok) {
+              window.location.href = `/decks/${deckId}`; // Redirect to the deck page
+            } else {
+              alert("Failed to delete the flashcard."); // Alert failure
+            }
+          }).catch(error => {
+            console.error("Error:", error);
+            alert("Error deleting flashcard.");
+          });
+        }
+      });
+    </script>
+
+  </body>
+</html>

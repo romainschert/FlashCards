@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Edit Flashcard
+    </title>
+    <link rel="stylesheet" href="/resources/css/deck.css" />
+  </head>
+  <body>
+
+    <!-- Header section (Include header partial) -->
+    @include('partials/Headerconnect')
+
+    <div class="container">
+      <h1>
+        Edit Flashcard
+      </h1>
+
+      <!-- Flashcard Edit Form -->
+      <form id="edit-flashcard-form" class="deck-form">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        <input type="hidden" name="flashcard_id" value="{{ flashcard.id }}" />
+        <input type="hidden" name="deck_id" value="{{ deckId }}" />
+
+        <label for="question">Question:</label>
+        <input type="text" name="question" id="question" value="{{ flashcard.question }}" required />
+
+        <label for="answer">Answer:</label>
+        <textarea name="answer" id="answer" required>{{ flashcard.answer }}</textarea>
+
+        <div class="button-group">
+          <button type="submit" class="auth-button">Save Changes</button>
+          <a href="{{ route('decks.show', { id: deckId }) }}" class="cancel-button">Cancel</a>
+        </div>
+      </form>
+    </div>
+
+    @include('partials/footer')
+
+    <!-- JavaScript to handle form submission -->
+    <script>
+      document.getElementById("edit-flashcard-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+        const flashcardId = document.querySelector('[name="flashcard_id"]').value;
+        const deckId = document.querySelector('[name="deck_id"]').value;
+        const question = document.querySelector('[name="question"]').value;
+        const answer = document.querySelector('[name="answer"]').value;
+        const csrfToken = document.querySelector('[name="_csrf"]').value;
+        // Prepare the data for the PUT request
+        const data = {
+          question: question,
+          answer: answer,
+          _csrf: csrfToken,
+          _method: "PUT"
+        };
+        // Send the PUT request using fetch()
+        fetch(`/decks/${deckId}/flashcards/${flashcardId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken
+          },
+          body: JSON.stringify(data)
+        }).then(response => response.json()).then(responseData => {
+          // Check if the response contains success field
+          if (responseData.success) {
+            window.location.href = `/decks/${deckId}`; // Redirect to the deck page after updating
+          } else {
+            throw new Error(responseData.message || "Failed to update flashcard.");
+          }
+        }).catch(error => {
+          console.error("Error:", error);
+          alert("Error updating flashcard: " + error.message); // Show the actual error message
+        });
+      });
+    </script>
+
+  </body>
+</html>

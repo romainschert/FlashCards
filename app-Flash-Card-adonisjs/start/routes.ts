@@ -120,5 +120,14 @@ router.group(() => {
 
 router.post('/decks/:id/flashcards', [FlashcardsController, 'create'])
 
+router
+  .put('/decks/:deckId/flashcards/:id', [FlashcardsController, 'update'])
+  .as('flashcards.update')
+
 router.get('/decks/:id/flashcards/create', [FlashcardsController, 'index'])
+
 router.get('/decks/:deckId/flashcards/:id', [FlashcardsController, 'show']).as('flashcards.show')
+
+router
+  .get('/decks/:deckId/flashcards/:id/edit', [FlashcardsController, 'edit'])
+  .as('flashcards.edit')

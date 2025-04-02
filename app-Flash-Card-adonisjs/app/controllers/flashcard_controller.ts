@@ -2,7 +2,6 @@
 import Flashcard from '#models/flashcard'
 import Deck from '#models/deck'
 import { HttpContext } from '@adonisjs/core/http'
-import { Console } from 'console'
 
 export default class FlashcardsController {
   // This method will render the flashcard creation form

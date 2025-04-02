@@ -39,6 +39,10 @@
           @if(deck.flashcards && deck.flashcards.length > 0)
             @each(flashcard in deck.flashcards)
               <div class="flashcard-row">
+                <a
+                href="/decks/{{ deck.id}}/flashcards/{{flashcard.id}}"
+                class="flashcard-link"
+              >
                 <div class="flashcard-column question">
                   <strong>{{ flashcard.question }}</strong>
                 </div>

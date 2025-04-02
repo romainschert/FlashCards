@@ -1,0 +1,90 @@
+/* --------------------------
+   Conteneur principal
+--------------------------- */
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* --------------------------
+   Flashcard avec effet flip
+--------------------------- */
+.flashcard {
+  position: relative; /* Pour ancrer correctement l'absolu des faces */
+  width: 300px;
+  height: 200px; /* Hauteur explicite */
+  perspective: 1000px;
+  margin: 0 auto 20px;
+  cursor: pointer;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+/* Appliquer la rotation quand la carte est retournée */
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+/* Face avant et arrière (styles communs) */
+.flashcard-front,
+.flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  backface-visibility: hidden; /* Cache le verso quand on est de l'autre côté */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Face avant */
+.flashcard-front {
+  background-color: #fff;
+}
+
+/* Face arrière */
+.flashcard-back {
+  background-color: #f8f8f8;
+  transform: rotateY(180deg);
+}
+
+/* Style du texte dans la flashcard */
+.flashcard strong {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+/* --------------------------
+   Bouton de retour
+--------------------------- */
+.flashcard-actions {
+  margin-top: 150px;
+}
+
+.back-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #5c7cfa;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #4a66cc;
+}
