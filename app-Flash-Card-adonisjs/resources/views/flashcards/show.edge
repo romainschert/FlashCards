@@ -39,7 +39,11 @@
           href="/decks/{{ deck.id}}/flashcards/{{ flashcard.id}}/edit"
           class="action-button"
         >Edit</a>
-
+        <button
+          class="action-button delete-flashcard-button"
+          data-deck-id="{{ deck.id }}"
+          data-flashcard-id="{{ flashcard.id }}"
+        >Delete</button>
       <!-- Back Button to go back to Deck -->
       <a href="/decks/{{deck.id}}" class="back-button">Back to Deck</a>
     </div>
