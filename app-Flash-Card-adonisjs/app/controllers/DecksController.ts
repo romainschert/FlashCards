@@ -43,13 +43,13 @@ export default class DecksController {
 
   // Afficher un deck spécifique
   public async show({ params, view, response }: HttpContext) {
-    const decks = await Deck.query().where('id', params.id)
+    try {
+      const deck = await Deck.query().where('id', params.id).preload('flashcards').firstOrFail()
 
-    if (!decks) {
+      return view.render('decks/decks_show', { deck })
+    } catch (error) {
       return response.redirect('/decks')
     }
-
-    return view.render('decks/decks_show', { decks })
   }
 
   // Afficher le formulaire d'édition

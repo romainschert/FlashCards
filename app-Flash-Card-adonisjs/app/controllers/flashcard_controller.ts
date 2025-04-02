@@ -2,6 +2,7 @@
 import Flashcard from '#models/flashcard'
 import Deck from '#models/deck'
 import { HttpContext } from '@adonisjs/core/http'
+import { Console } from 'console'
 
 export default class FlashcardsController {
   // This method will render the flashcard creation form
@@ -53,7 +54,6 @@ export default class FlashcardsController {
 
     // Find the flashcard by id
     const flashcard = await Flashcard.findOrFail(id)
-
     // Return the flashcard data to the view
     return view.render('flashcards/show', { deck, flashcard })
   }

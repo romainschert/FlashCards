@@ -70,7 +70,7 @@ router.post('/login', async ({ request, response, session, auth }) => {
     // Redirection vers la page des flashcards
     console.log('Connexion réussie pour:', email)
     return response.redirect('/flashcards')
-  } catch {
+  } catch (error) {
     console.log('Échec de connexion : Email ou mot de passe incorrect')
     return response.redirect('back')
   }
@@ -121,3 +121,4 @@ router.group(() => {
 router.post('/decks/:id/flashcards', [FlashcardsController, 'create'])
 
 router.get('/decks/:id/flashcards/create', [FlashcardsController, 'index'])
+router.get('/decks/:deckId/flashcards/:id', [FlashcardsController, 'show']).as('flashcards.show')
