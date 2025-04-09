@@ -26,11 +26,19 @@
       @endif
       
       <form action="/decks/{{ deck.id }}/flashcards" method="POST" class="deck-form">
-        {{ csrfField }}
-
         <label for="question">Question:</label>
         <input type="text" name="question" id="question" required />
-
+        @if(session.has('errors.created_question'))
+          <p class="error">
+            {{ session.get('errors.created_question') }}
+          </p>
+        @endif
+        @if(session.has('errors.created_answer'))
+          <p class="error">
+            {{ session.get('errors.created_answer') }}
+          </p>
+        @endif
+        
         <label for="answer">Answer:</label>
         <textarea name="answer" id="answer" required></textarea>
 

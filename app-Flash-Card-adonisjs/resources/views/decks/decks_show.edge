@@ -3,46 +3,60 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mes Decks</title>
+    <title>
+      Mes Decks
+    </title>
     @vite(['resources/css/decks.css', 'resources/js/app.js'])
   </head>
   <body>
     @include('partials/headerconnect')
     <div class="container">
 
-      <h1>Deck {{ deck.name }}</h1>
+      <h1>
+        Deck {{ deck.name }}
+      </h1>
 
-        <!-- Boutons -->
-        <a onClick="return confirm(`Voulez-vous vraiment supprimer le deck {{ deck.name }} ?`)" 
-          href='/decks/{{ deck.id }}/delete' class="btn btn-primary">deleted</a>
-        <a href='/decks/{{ deck.id }}/edit' class="btn btn-primary">update</a>
-        <a href='/decks/{{ deck.id }}/flashcards/create' class="btn btn-primary">Add Cards</a>
+      <!-- Boutons -->
+      <a
+        onClick="return confirm(`Voulez-vous vraiment supprimer le deck {{ deck.name }} ?`)"
+        href='/decks/{{ deck.id }}/delete'
+        class="btn btn-primary"
+      >deleted</a>
+      <a href='/decks/{{ deck.id }}/edit' class="btn btn-primary">update</a>
+      <a href='/decks/{{ deck.id }}/flashcards/create' class="btn btn-primary">Add Cards</a>
 
-     <table class="deck-table">
-  <thead>
-    <tr>
-      <th>Titre</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-        <tr class="deck-item" onclick="location.href='/decks/{{ deck.id }}'">
-          <td>{{ deck.name }}</td>
-          <td>{{ deck.description }}</td>
-        </tr>
-  </tbody>
-</table>
+      <table class="deck-table">
+        <thead>
+          <tr>
+            <th>
+              Titre
+            </th>
+            <th>
+              Description
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="deck-item" onclick="location.href='/decks/{{ deck.id }}'">
+            <td>
+              {{ deck.name }}
+            </td>
+            <td>
+              {{ deck.description }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <a href="/decks" class="return-button">Return to Decks</a>
 
-      <h3>Flashcards</h3>
-        <div class="flashcards-container">
-          @if(deck.flashcards && deck.flashcards.length > 0)
-            @each(flashcard in deck.flashcards)
-              <div class="flashcard-row">
-                <a
-                href="/decks/{{ deck.id}}/flashcards/{{flashcard.id}}"
-                class="flashcard-link"
-              >
+      <h3>
+        Flashcards
+      </h3>
+      <div class="flashcards-container">
+        @if(deck.flashcards && deck.flashcards.length > 0)
+          @each(flashcard in deck.flashcards)
+            <div class="flashcard-row">
+              <a href="/decks/{{ deck.id }}/flashcards/{{ flashcard.id }}" class="flashcard-link">
                 <div class="flashcard-column question">
                   <strong>{{ flashcard.question }}</strong>
                 </div>
@@ -52,9 +66,11 @@
               </div>
             @endeach
           @else
-            <p>No flashcards found for this deck.</p>
+            <p>
+              No flashcards found for this deck.
+            </p>
           @endif
         </div>
-    </div>
-  </body>
-</html>
+      </div>
+    </body>
+  </html>

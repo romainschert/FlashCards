@@ -13,14 +13,16 @@ export default class FlashcardsController {
   public async create({ request, response, params, session }: HttpContext) {
     const { question, answer } = request.only(['question', 'answer'])
     const deck = await Deck.findOrFail(params.id) // Find the deck by ID
-
+    session.put('errors.created_question', '')
     // Validate the question length
-    if (!question || question.length < 10) {
+    if (!answer || question.length < 10) {
       session.flash({ error: 'The question must be at least 10 characters long.' })
+      console.log('erreur2')
+      session.put('errors.created_answer', 'la question doit faire minimum 10 characters de longs')
       console.log('Flash message set:', session.flashMessages.all()) // Debugging statement
       return response.redirect().back()
     }
-
+    session.put('errors.created_answer', '')
     // Check if a flashcard with the same question already exists in this deck
     const existingFlashcard = await Flashcard.query()
       .where('question', question)
@@ -29,10 +31,12 @@ export default class FlashcardsController {
 
     if (existingFlashcard) {
       session.flash({ error: 'A flashcard with the same question already exists in this deck.' })
+      console.log('erreur1')
+      session.put('errors.created_question', 'la question existe deja')
       console.log('Flash message set:', session.flashMessages.all()) // Debugging statement
       return response.redirect().back()
     }
-
+    session.put('errors.created_question', '')
     // Create the flashcard if no duplicate is found
     const flashcard = await Flashcard.create({
       question,

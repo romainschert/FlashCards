@@ -137,6 +137,10 @@ h3 {
   padding: 10px 0;
 }
 
+.flashcard-row:hover {
+  background-color: darkgray;
+}
+
 .flashcard-row:last-child {
   border-bottom: none;
 }
