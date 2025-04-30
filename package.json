@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@adonisjs/hash": "^9.0.5",
-    "@adonisjs/validator": "^13.0.2"
-  }
-}
