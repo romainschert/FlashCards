@@ -1,7 +1,3 @@
-# Creation date : 11.02.2025
-# Created by : Sam Sallaku
-# Description : creates 2 containers. PHPMyAdmin, MySQL
-#
 version: '3'
 
 services:
@@ -21,7 +17,7 @@ services:
       APP_KEY: 19U8lRDvtiDXV7OZhyd65fjQqqQqSelv
       NODE_ENV: development
       SESSION_DRIVER: cookie
-      DB_HOST: db
+      DB_HOST: db_adonis
       DB_PORT: 3306
       DB_USER: root
       DB_PASSWORD: root
