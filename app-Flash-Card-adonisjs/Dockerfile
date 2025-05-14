@@ -3,12 +3,11 @@ FROM node:20.11.1-alpine3.19
 # Créer le répertoire de travail
 WORKDIR /app
 
-# Copier package.json et lock
-COPY package.json package-lock.json* ./
+# Copier package.json et package-lock.json
+COPY package.json package-lock.json* ./ 
 
 # Installer les dépendances y compris les dev
-ENV NODE_ENV=development
-RUN npm install
+RUN npm install --production
 
 # Copier le reste des fichiers
 COPY . .
