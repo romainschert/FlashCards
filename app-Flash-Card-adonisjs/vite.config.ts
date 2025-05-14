@@ -1,26 +1,34 @@
 import { defineConfig } from 'vite'
+import adonisjs from '@adonisjs/vite/client'
 import path from 'path'
+import fs from 'fs'
 
-export default defineConfig({
-  // Assurez-vous que vous utilisez le bon mode de build pour AdonisJS
-  build: {
-    manifest: true, // Générez le manifeste pour une gestion facile des assets
-    rollupOptions: {
-      input: [
-        path.resolve(__dirname, 'resources/js/app.js'),
-        ...getCssFiles(), // Cette fonction récupère tous les fichiers CSS
-      ],
-    },
-  },
-})
-
-// Fonction pour récupérer tous les fichiers CSS dans le dossier `resources/css`
+// Fonction pour récupérer tous les fichiers CSS dans le dossier 'resources/css'
 function getCssFiles() {
-  const fs = require('fs')
-  const path = require('path')
-
   const cssDir = path.resolve(__dirname, 'resources/css')
   const files = fs.readdirSync(cssDir)
 
-  return files.filter((file) => file.endsWith('.css')).map((file) => path.resolve(cssDir, file))
+  return files
+    .filter((file) => file.endsWith('.css')) // Filtrer pour ne garder que les fichiers .css
+    .map((file) => path.resolve(cssDir, file)) // Créer un tableau avec les chemins complets des fichiers CSS
 }
+
+export default defineConfig({
+  plugins: [
+    adonisjs({
+      /**
+       * Entrypoints de l'application. Chaque entrée crée un bundle distinct.
+       * Inclure tous les fichiers CSS dans 'resources/css'
+       */
+      entrypoints: [
+        ...getCssFiles(), // Récupérer tous les fichiers CSS
+        'resources/js/app.js', // Ajouter le fichier JavaScript principal
+      ],
+
+      /**
+       * Dossiers à surveiller et recharger le navigateur lors de changements de fichiers
+       */
+      reload: ['resources/views/**/*.edge'],
+    }),
+  ],
+})
