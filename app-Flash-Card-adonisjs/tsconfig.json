@@ -1,7 +1,14 @@
 {
   "extends": "@adonisjs/tsconfig/tsconfig.app.json",
   "compilerOptions": {
-    "rootDir": "./",
-    "outDir": "./build"
-  }
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "outDir": "./build",
+    "rootDir": "./app",
+    "esModuleInterop": true,
+    "strict": true
+  },
+  "include": ["app/**/*.ts"],
+  "exclude": ["node_modules"]
 }
