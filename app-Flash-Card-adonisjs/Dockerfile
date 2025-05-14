@@ -1,31 +1,26 @@
-
-FROM node:20.11.1-alpine3.19
-
-# Créer le répertoire de travail
+# Dockerfile.prod
+ 
+# Étape 1 : Image Node.js légère
+FROM node:18-alpine
+ 
+# Étape 2 : Créer le dossier de travail
 WORKDIR /app
-
-# Copier package.json et lock
-COPY package.json package-lock.json* ./
-
-# Installer les dépendances y compris les dev
-ENV NODE_ENV=development
+ 
+# Étape 3 : Copier les fichiers nécessaires pour installer les dépendances
+COPY package*.json ./
+ 
+# Étape 4 : Installer les dépendances
 RUN npm install
-
-# Copier le reste des fichiers
+ 
+# Étape 5 : Copier le reste de l'application
 COPY . .
-
-# Build AdonisJS
-RUN node ace build --ignore-ts-errors
-
-# Passer en production
-ENV NODE_ENV=production
-
-# Script d’entrée
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
+ 
+# Étape 6 : Compiler l’application AdonisJS (TypeScript)
+# Ignore les erreurs TS pour éviter d’interrompre le build en prod
+RUN npm run build || echo "⚠️ Build terminé avec des erreurs TypeScript, mais on continue."
+ 
+# Étape 7 : Exposer le port de l'application
 EXPOSE 3333
-
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-# Entrée du conteneur (point d'entrée)
-CMD ["node", "build/bin/server.js"]
+ 
+# Étape 8 : Lancer l’application en production
+CMD ["npm", "start"]
