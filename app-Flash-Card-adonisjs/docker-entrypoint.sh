@@ -7,11 +7,9 @@ sleep 10
 echo "Build AdonisJS (bin/server.js)..."
 node ace build --ignore-ts-errors
 
-# Vérification de la présence du fichier server.js avant démarrage
-if [ ! -f "bin/server.js" ]; then
-  echo "Erreur : Le fichier bin/server.js est introuvable"
-  exit 1
-fi
+# Vérifier si le fichier bin/server.js existe après le build
+echo "Vérification de la présence de bin/server.js..."
+ls -l build/bin
 
 echo "Démarrage de l'application..."
 node bin/server.js
