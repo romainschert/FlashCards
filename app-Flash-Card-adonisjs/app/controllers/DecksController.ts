@@ -33,7 +33,7 @@ export default class DecksController {
       return response.redirect().back()
     }
     session.put('errors.created_desc', '')
-    const deck = await Deck.create({
+    await Deck.create({
       name,
       description,
     })
