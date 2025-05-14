@@ -1,32 +1,29 @@
 FROM node:20.11.1-alpine3.19
 
-# Création du répertoire de travail
+# Créer le répertoire de travail
 WORKDIR /app
 
-# Copie des fichiers de configuration
+# Copier package.json et lock
 COPY package.json package-lock.json* ./
 
-# Installation des dépendances avec npm directement
+# Installer les dépendances y compris les dev
+ENV NODE_ENV=development
 RUN npm install
 
-
-
-# Copie du code source
+# Copier le reste des fichiers
 COPY . .
 
-# Construction de l'application en ignorant les erreurs TypeScript
-RUN NODE_ENV=production node ace build --ignore-ts-errors
+# Build AdonisJS
+RUN node ace build --ignore-ts-errors
 
-# Copie du script d'entrée avant la construction
+# Passer en production
+ENV NODE_ENV=production
+
+# Script d’entrée
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Vérifier que le script existe bien et est exécutable
-RUN ls -la /usr/local/bin/docker-entrypoint.sh
-
-# Exposition du port
 EXPOSE 3333
 
-# Exécuter le script directement avec le chemin complet
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["node", "bin/server.js"]

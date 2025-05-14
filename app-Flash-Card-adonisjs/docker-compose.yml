@@ -22,9 +22,6 @@ services:
       DB_USER: root
       DB_PASSWORD: root
       DB_DATABASE: app_adonis
-    volumes:
-      - ./:/app
-      - /app/node_modules
     depends_on:
       - db_adonis
   db:
