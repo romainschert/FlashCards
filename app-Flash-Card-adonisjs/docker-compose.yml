@@ -1,12 +1,36 @@
-version: '3'
+version: '3.3'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: adonis_app
+  db:
+    image: mysql:8.0.30
+    container_name: db_flashcards
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: db_user_pass
     restart: always
+    ports:
+      - '6033:3306'
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./scripts:/scripts
+
+  phpmyadmin:
+    image: phpmyadmin:5.2.0
+    container_name: db_flashcards_pma
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+
+  adonis:
+    build: .
+    container_name: adonis_app
     volumes:
       - .:/app
       - /app/node_modules
@@ -17,43 +41,17 @@ services:
       PORT: 3333
       HOST: 0.0.0.0
       LOG_LEVEL: info
-      APP_KEY: 19U8lRDvtiDXV7OZhyd65fjQqqQqSelv
+      APP_KEY:
       NODE_ENV: development
       SESSION_DRIVER: cookie
-      DB_HOST: db_adonis
+      DB_CONNECTION: mysql
+      DB_HOST: db
       DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: root
-      DB_DATABASE: app_adonis
+      DB_USER: db_user
+      DB_PASSWORD: db_user_pass
+      DB_DATABASE: db_flashcards
     depends_on:
-      - db_adonis
-  db:
-    image: mysql:8.0.30
-    container_name: db_adonis
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: db_user
-      MYSQL_PASSWORD: db_user_pass
-      MYSQL_DATABASE: app_adonis
-    restart: always
-    ports:
-      - '6034:3306'
-    volumes:
-      - dbdata:/var/lib/mysql
+      - db
 
-  phpmyadmin:
-    image: phpmyadmin:5.2.0
-    container_name: pma_adonis
-    links:
-      - db_adonis
-    environment:
-      PMA_HOST: db_adonis
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    restart: always
-    ports:
-      - 8082:80
-
-# The database will be persistent among containers restarts.
 volumes:
   dbdata:
