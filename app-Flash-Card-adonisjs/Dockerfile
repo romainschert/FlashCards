@@ -1,34 +1,31 @@
 
-# Étape 1 : Utilisation de l'image Node.js
-FROM node:20.11.1-alpine3.19 AS builder
+FROM node:20.11.1-alpine3.19
 
 # Créer le répertoire de travail
 WORKDIR /app
 
-# Copier package.json et package-lock.json pour installer les dépendances
-COPY package.json package-lock.json ./
+# Copier package.json et lock
+COPY package.json package-lock.json* ./
 
-# Installer les dépendances
+# Installer les dépendances y compris les dev
+ENV NODE_ENV=development
 RUN npm install
 
-# Copier tout le reste du code dans le conteneur
+# Copier le reste des fichiers
 COPY . .
 
-# Compiler le code TypeScript
-RUN npx tsc
+# Build AdonisJS
+RUN node ace build --ignore-ts-errors
 
-# Étape 2 : Créer une image finale pour la production
-FROM node:20.11.1-alpine3.19
+# Passer en production
+ENV NODE_ENV=production
 
-# Install dependencies
-RUN npm install
+# Script d’entrée
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-
-# Copier uniquement les fichiers compilés de l'étape précédente
-COPY --from=builder /app /app
-
-# Exposer le port 3333
 EXPOSE 3333
 
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 # Entrée du conteneur (point d'entrée)
 CMD ["node", "build/bin/server.js"]
