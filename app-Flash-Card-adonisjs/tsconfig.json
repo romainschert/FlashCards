@@ -1,14 +1,13 @@
 {
   "extends": "@adonisjs/tsconfig/tsconfig.app.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
+    "rootDir": "./",
     "outDir": "./build",
-    "rootDir": "./app",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "target": "ES2021",
     "esModuleInterop": true,
-    "strict": true
-  },
-  "include": ["app/**/*.ts"],
-  "exclude": ["node_modules"]
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
+  }
 }
