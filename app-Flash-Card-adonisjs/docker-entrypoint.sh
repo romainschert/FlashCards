@@ -17,4 +17,4 @@ sleep 10
 
 # Démarrer l'application
 echo "Démarrage de l'application..."
-node build/server.js
+node bin/server.js

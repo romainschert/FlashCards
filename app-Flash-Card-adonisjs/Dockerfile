@@ -27,4 +27,4 @@ EXPOSE 3333
 
 # Exécuter le script directement avec le chemin complet
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["node", "build/bin/server.js"]
+CMD ["node", "bin/server.js"]
