@@ -9,18 +9,20 @@ COPY package.json package-lock.json* ./
 # Installation des dépendances avec npm directement
 RUN npm install
 
-# Copie du script d'entrée avant la construction
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Vérifier que le script existe bien et est exécutable
-RUN ls -la /usr/local/bin/docker-entrypoint.sh
 
 # Copie du code source
 COPY . .
 
 # Construction de l'application en ignorant les erreurs TypeScript
 RUN NODE_ENV=production node ace build --ignore-ts-errors
+
+# Copie du script d'entrée avant la construction
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Vérifier que le script existe bien et est exécutable
+RUN ls -la /usr/local/bin/docker-entrypoint.sh
 
 # Exposition du port
 EXPOSE 3333
