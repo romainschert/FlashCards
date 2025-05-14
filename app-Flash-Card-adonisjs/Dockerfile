@@ -6,8 +6,9 @@ WORKDIR /app
 # Copier package.json et package-lock.json
 COPY package.json package-lock.json* ./ 
 
-# Installer les dépendances y compris les dev
+# Installer les dépendances de production et de développement
 RUN npm install --production
+RUN npm install --only=dev  # Installer les dépendances de dev, y compris ts-node-maintained
 
 # Copier le reste des fichiers
 COPY . .
