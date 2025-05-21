@@ -1,33 +1,35 @@
-# Build stage
-FROM node:20-alpine as builder
+# Étape 1 : Builder
+FROM node:20-alpine AS builder
 
-WORKDIR /app-Flash-Card-adonisjs
+WORKDIR /app
 
 COPY package*.json ./
 RUN npm install
 
 COPY . .
-
-# Compile TypeScript
 RUN npm run build
 
-# Production stage
+
+# Étape 2 : Runtime
 FROM node:20-alpine
 
-WORKDIR /app-Flash-Card-adonisjs
+WORKDIR /app
 
-
+# Installer uniquement les dépendances nécessaires à l'exécution
 COPY --from=builder /app/package*.json ./
 RUN npm install --omit=dev
 
-# Copy only what's needed at runtime
+# Copier les fichiers nécessaires
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/resources ./resources
 COPY --from=builder /app/start ./start
 COPY --from=builder /app/config ./config
+COPY --from=builder /app/app ./app
 COPY --from=builder /app/contracts ./contracts
 COPY --from=builder /app/.adonisrc.ts ./
 COPY --from=builder /app/tsconfig.json ./
+COPY --from=builder /app/.env ./
 
-CMD ["node", "./build/server.js"]
+# Lancer l'application
+CMD ["node", "build/server.js"]
