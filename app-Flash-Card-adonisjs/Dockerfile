@@ -20,16 +20,16 @@ COPY --from=builder /app/package*.json ./
 RUN npm install --omit=dev
 
 # Copier les fichiers nécessaires
-COPY --from=builder /app/build ./build
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/resources ./resources
-COPY --from=builder /app/start ./start
-COPY --from=builder /app/config ./config
-COPY --from=builder /app/app ./app
-COPY --from=builder /app/contracts ./contracts
-COPY --from=builder /app/.adonisrc.ts ./
-COPY --from=builder /app/tsconfig.json ./
-COPY --from=builder /app/.env ./
+COPY --from=builder build ./build
+COPY --from=builder public ./public
+COPY --from=builder resources ./resources
+COPY --from=builder start ./start
+COPY --from=builder config ./config
+COPY --from=builder app ./app
+COPY --from=builder contracts ./contracts
+COPY --from=builder .adonisrc.ts ./
+COPY --from=builder tsconfig.json ./
+COPY --from=builder /.env ./
 
 # Lancer l'application
 CMD ["node", "build/server.js"]
