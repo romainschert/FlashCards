@@ -1,7 +1,7 @@
 # Build stage
 FROM node:20-alpine as builder
 
-WORKDIR /app
+WORKDIR /app-Flash-Card-adonisjs
 
 COPY package*.json ./
 RUN npm install
@@ -14,7 +14,8 @@ RUN npm run build
 # Production stage
 FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /app-Flash-Card-adonisjs
+
 
 COPY --from=builder /app/package*.json ./
 RUN npm install --omit=dev
