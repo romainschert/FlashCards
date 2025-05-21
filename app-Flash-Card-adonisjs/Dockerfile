@@ -23,13 +23,6 @@ RUN npm install --omit=dev
 COPY --from=builder build ./build
 COPY --from=builder public ./public
 COPY --from=builder resources ./resources
-COPY --from=builder start ./start
-COPY --from=builder config ./config
-COPY --from=builder app ./app
-COPY --from=builder contracts ./contracts
-COPY --from=builder .adonisrc.ts ./
-COPY --from=builder tsconfig.json ./
-COPY --from=builder /.env ./
 
 # Lancer l'application
 CMD ["node", "build/server.js"]
