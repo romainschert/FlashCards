@@ -1,6 +1,7 @@
 // app/Models/Flashcard.ts
 import { DateTime } from 'luxon'
 import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Deck from '../models/deck.js' // Import the Deck model to establish the relationship
 
 export default class Flashcard extends BaseModel {

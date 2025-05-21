@@ -2,6 +2,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import Flashcard from '../models/flashcard.js' // Import the Flashcard model to establish the relationship
+import type { HasMany } from '@adonisjs/lucid/types/relations'
 
 export default class Deck extends BaseModel {
   @column({ isPrimary: true })

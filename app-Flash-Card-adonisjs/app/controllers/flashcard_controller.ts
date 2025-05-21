@@ -43,7 +43,7 @@ export default class FlashcardsController {
       answer,
       deckId: deck.id, // Associate flashcard with the deck
     })
-
+    console.log(flashcard)
     // Redirect back to the deck's page after adding the flashcard
     return response.redirect().toRoute('decks.show', { id: deck.id })
   }
@@ -113,7 +113,6 @@ export default class FlashcardsController {
 
   public async validateFlashcard({ params, response }: HttpContext) {
     const flashcard = await Flashcard.findOrFail(params.id)
-    flashcard.validated = true // Assuming you have a 'validated' boolean field
     await flashcard.save()
 
     return response.redirect().toRoute('decks.show', { id: params.deckId })

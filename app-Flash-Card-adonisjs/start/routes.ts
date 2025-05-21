@@ -8,10 +8,6 @@
 */
 
 import router from '@adonisjs/core/services/router'
-import { Session } from 'inspector/promises'
-import vine from '@vinejs/vine'
-import RegisterUsersController from '../app/controllers/register_users_controller.js'
-import type { HttpContext } from '@adonisjs/core/http'
 import DecksController from '../app/controllers/DecksController.js'
 import FlashcardsController from '../app/controllers/flashcard_controller.js'
 import User from '#models/user'
@@ -75,7 +71,7 @@ router.post('/login', async ({ request, response, session, auth }) => {
     return response.redirect('back')
   }
 })
-router.post('/register', async ({ request, response, session, auth }) => {
+router.post('/register', async ({ request, response, session }) => {
   const data = request.only(['full_name', 'email', 'password'])
 
   const emailExists = await User.findBy('email', data.email)
