@@ -23,6 +23,6 @@ ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3333
  
-EXPOSE 3333
+
  
 CMD ["sh", "-c", "node build/ace migration:run --force && node build/bin/server.js"]
