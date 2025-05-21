@@ -25,4 +25,4 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/resources ./resources
 
 
-CMD ["node", "./build/server.js"]
+CMD ["node", "./build/bin/server.js"]
