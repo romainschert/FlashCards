@@ -20,8 +20,8 @@ COPY --from=builder /app/package*.json ./
 RUN npm install --omit=dev
 
 # Copier les fichiers nécessaires
-COPY --from=builder /appbuild ./build
-COPY --from=builder /apppublic ./public
+COPY --from=builder /app/build ./build
+COPY --from=builder /app/public ./public
 COPY --from=builder /app/resources ./resources
 
 # Lancer l'application
