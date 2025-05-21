@@ -1,16 +1,16 @@
 // import type { HttpContext } from '@adonisjs/core/http'
 
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
 
 export default class RegisterUsersController {
   // Cette méthode affiche le formulaire d'inscription
-  public async showForm({ view }: HttpContextContract) {
+  public async showForm({ view }: HttpContext) {
     return view.render('register') // Affiche le formulaire d'inscription
   }
 
   // Cette méthode enregistre un utilisateur
-  public async register({ request, response, session }: HttpContextContract) {
+  public async register({ request, response, session }: HttpContext) {
     // Récupérer les données envoyées par le formulaire
     const data = request.only(['full_name', 'email', 'password'])
 
