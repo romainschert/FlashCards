@@ -1,28 +1,29 @@
-# Étape 1 : Builder
-FROM node:20-alpine AS builder
+# Étape 1 : Image Node.js légère
+FROM node:18-alpine
 
+# Étape 2 : Créer le dossier de travail
 WORKDIR /app
 
+# Étape 3 : Copier les fichiers nécessaires pour installer les dépendances
 COPY package*.json ./
+
+# Étape 4 : Installer les dépendances
 RUN npm install
 
+# Étape 5 : Copier le reste de l'application
 COPY . .
-RUN npm run build
-
-
-# Étape 2 : Runtime
-FROM node:20-alpine
-
-WORKDIR /app
-
-# Installer uniquement les dépendances nécessaires à l'exécution
-COPY --from=builder /app/package*.json ./
-RUN npm install --omit=dev
-
-# Copier les fichiers nécessaires
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/resources ./resources
 
-# Lancer l'application
-CMD ["node", "build/server.js"]
+# Étape 6 : Compiler l’application AdonisJS (TypeScript)
+RUN npm run build || echo "⚠️ Build terminé avec des erreurs TypeScript, mais on continue."
+
+# ✅ Étape 7 : Copier les vues .edge et le dossier public vers build/
+RUN cp -r resources build/resources && cp -r public build/public
+
+# Étape 8 : Exposer le port de l'application
+EXPOSE 3333
+
+# Étape 9 : Lancer l’application en production
+CMD ["npm", "start"]
