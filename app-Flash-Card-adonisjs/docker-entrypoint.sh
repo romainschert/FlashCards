@@ -27,13 +27,13 @@ echo Copie des fichiers CSS...
 echo Copier les fichiers CSS
 if exist ".\resources\css\app.css" copy ".\resources\css\app.css" ".\build\resources\css\app.css"
 if exist ".\resources\css\decks_created.css" copy ".\resources\css\decks_created.css" ".\build\resources\css\decks_created.css"
-if exist ".\resources\css\decks.css" copy ".\resources\css\decks.css" ".\build\resources\css\decks.css"
 if exist ".\resources\css\flashcard-detail.css" copy ".\resources\css\flashcard-detail.css" ".\build\resources\css\flashcard-detail.css"
 if exist ".\resources\css\flashcards_create.css" copy ".\resources\css\flashcards_create.css" ".\build\resources\css\flashcards_create.css"
 if exist ".\resources\css\flashcards.css" copy ".\resources\css\flashcards.css" ".\build\resources\css\flashcards.css"
 if exist ".\resources\css\home.css" copy ".\resources\css\home.css" ".\build\resources\css\home.css"
 if exist ".\resources\css\login.css" copy ".\resources\css\login.css" ".\build\resources\css\login.css"
 if exist ".\resources\css\register.css" copy ".\resources\css\register.css" ".\build\resources\css\register.css"
+if exist ".\resources\css\decks.css" copy ".\resources\css\decks.css" ".\build\resources\css\decks.css"
 
 echo  Copier les fichiers JS
 if exist ".\resources\js\app.js" copy ".\resources\js\app.js" ".\build\resources\js\app.js"
