@@ -29,8 +29,11 @@ services:
       - 8081:80
 
   adonis:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: adonis_app
+    restart: always
     volumes:
       - .:/app
       - /app/node_modules
@@ -44,12 +47,6 @@ services:
       APP_KEY:
       NODE_ENV: development
       SESSION_DRIVER: cookie
-      DB_CONNECTION: mysql
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USER: db_user
-      DB_PASSWORD: db_user_pass
-      DB_DATABASE: db_flashcards
     depends_on:
       - db
 

@@ -25,4 +25,4 @@ ENV PORT=3333
  
 
  
-CMD ["sh", "-c", "node build/ace migration:run --force && node build/bin/server.js"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
