@@ -7,13 +7,13 @@
   "scripts": {
     "start": "node build/bin/server.js",
     "migrate": "node build/ace migration:run --force",
-    "build": "node ace build --ignore-ts-errors",
+    "build": "node ace build --ignore-ts-errors  && vite build",
     "dev": "node ace serve --hmr",
     "test": "node ace test",
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "postbuild": "node ./copy-resources.js"
+    "postbuild": "node ./copy-resources.js  && vite build "
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
