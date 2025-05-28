@@ -1,6 +1,4 @@
 
- 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 FROM node:20.11.1-alpine3.19
 
 # Création du répertoire de travail
