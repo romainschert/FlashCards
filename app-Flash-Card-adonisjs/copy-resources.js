@@ -1,14 +1,10 @@
-import { copySync } from 'fs-extra'
+import fs from 'fs-extra'
 
-try {
-  // Copier les vues (edge)
-  copySync('resources/views', 'build/resources/views', {
-    overwrite: true,
-    errorOnExist: false,
-    recursive: true,
-  })
+// Copier les vues (.edge)
+fs.copySync('resources/views', 'build/resources/views', {
+  overwrite: true,
+  errorOnExist: false,
+  recursive: true,
+})
 
-  console.log('✅ Vues copiées avec succès dans build/resources/views')
-} catch (err) {
-  console.error('❌ Erreur lors de la copie des vues :', err)
-}
+console.log('✅ Vues copiées avec succès dans build/resources/views')
