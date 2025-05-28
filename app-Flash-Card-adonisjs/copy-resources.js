@@ -1,14 +1,14 @@
-import { cpSync } from 'fs'
-import { join } from 'path'
+import { copySync } from 'fs-extra'
 
-const copy = (src, dest) => {
-  try {
-    cpSync(src, dest, { recursive: true })
-    console.log(`✅ Copied ${src} to ${dest}`)
-  } catch (err) {
-    console.error(`❌ Failed to copy ${src} to ${dest}:`, err)
-  }
+try {
+  // Copier les vues (edge)
+  copySync('resources/views', 'build/resources/views', {
+    overwrite: true,
+    errorOnExist: false,
+    recursive: true,
+  })
+
+  console.log('✅ Vues copiées avec succès dans build/resources/views')
+} catch (err) {
+  console.error('❌ Erreur lors de la copie des vues :', err)
 }
-
-copy(join('resources', 'views'), join('build', 'resources', 'views'))
-copy('public', join('build', 'public'))
