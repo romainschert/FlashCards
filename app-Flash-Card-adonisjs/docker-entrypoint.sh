@@ -23,6 +23,14 @@ npm run build
 echo "Copie des ressources"
 mkdir ./build/resources/css
 cp ./resources/css/app.css ./build/resources/css/app.css
+cp ./resources/css/decks_created.css ./build/resources/css/decks_created.css
+cp ./resources/css/decks.css./build/resources/css/decks.css
+cp ./resources/css/flashcard-detail.css ./build/resources/css/flashcard-detail.css
+cp ./resources/css/flashcards_create.css ./build/resources/css/flashcards_create.css
+cp ./resources/css/flashcards.css ./build/resources/css/flashcards.css
+cp ./resources/css/home.css ./build/resources/css/home.css
+cp ./resources/css/login.css ./build/resources/css/login.css
+cp ./resources/css/register.css ./build/resources/css/register.css
 mkdir ./build/resources/js
 cp ./resources/js/app.js ./build/resources/js/app.js
 
