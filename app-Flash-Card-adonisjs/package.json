@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "postbuild": "cpx \"resources/views/**/*\" build/resources/views && cpx \"public/**/*\" build/public"
+    "postbuild": "node ./copy-resources.js"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
