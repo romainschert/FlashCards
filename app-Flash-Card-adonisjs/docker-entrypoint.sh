@@ -18,24 +18,25 @@ npm run build
 
 echo "Copie des ressources"
 # Créer les dossiers de destination
-mkdir -p ./build/resources/css
-mkdir -p ./build/resources/js
+md build\resources\css
+md build\resources\js
 
 # Copier les fichiers CSS un par un (avec vérification d'existence)
-echo "Copie des fichiers CSS..."
-[ -f ./resources/css/app.css ] && cp ./resources/css/app.css ./build/resources/css/app.css
-[ -f ./resources/css/decks_created.css ] && cp ./resources/css/decks_created.css ./build/resources/css/decks_created.css
-[ -f ./resources/css/decks.css ] && cp ./resources/css/decks.css ./build/resources/css/decks.css
-[ -f ./resources/css/flashcard-detail.css ] && cp ./resources/css/flashcard-detail.css ./build/resources/css/flashcard-detail.css
-[ -f ./resources/css/flashcards_create.css ] && cp ./resources/css/flashcards_create.css ./build/resources/css/flashcards_create.css
-[ -f ./resources/css/flashcards.css ] && cp ./resources/css/flashcards.css ./build/resources/css/flashcards.css
-[ -f ./resources/css/home.css ] && cp ./resources/css/home.css ./build/resources/css/home.css
-[ -f ./resources/css/login.css ] && cp ./resources/css/login.css ./build/resources/css/login.css
-[ -f ./resources/css/register.css ] && cp ./resources/css/register.css ./build/resources/css/register.css
+echo Copie des fichiers CSS...
 
-# Copier les fichiers JS
-echo "Copie des fichiers JS..."
-[ -f ./resources/js/app.js ] && cp ./resources/js/app.js ./build/resources/js/app.js
+echo Copier les fichiers CSS
+if exist ".\resources\css\app.css" copy ".\resources\css\app.css" ".\build\resources\css\app.css"
+if exist ".\resources\css\decks_created.css" copy ".\resources\css\decks_created.css" ".\build\resources\css\decks_created.css"
+if exist ".\resources\css\decks.css" copy ".\resources\css\decks.css" ".\build\resources\css\decks.css"
+if exist ".\resources\css\flashcard-detail.css" copy ".\resources\css\flashcard-detail.css" ".\build\resources\css\flashcard-detail.css"
+if exist ".\resources\css\flashcards_create.css" copy ".\resources\css\flashcards_create.css" ".\build\resources\css\flashcards_create.css"
+if exist ".\resources\css\flashcards.css" copy ".\resources\css\flashcards.css" ".\build\resources\css\flashcards.css"
+if exist ".\resources\css\home.css" copy ".\resources\css\home.css" ".\build\resources\css\home.css"
+if exist ".\resources\css\login.css" copy ".\resources\css\login.css" ".\build\resources\css\login.css"
+if exist ".\resources\css\register.css" copy ".\resources\css\register.css" ".\build\resources\css\register.css"
+
+echo  Copier les fichiers JS
+if exist ".\resources\js\app.js" copy ".\resources\js\app.js" ".\build\resources\js\app.js"
 
 echo "Installation des dépendances de production..."
 npm ci --omit=dev
