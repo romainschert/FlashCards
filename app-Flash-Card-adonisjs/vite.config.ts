@@ -2,20 +2,20 @@ import { defineConfig } from 'vite'
 import adonisjs from '@adonisjs/vite/client'
 
 export default defineConfig({
+  server: {
+    allowedHosts: ['flashcards-1-voip.onrender.com'],
+  },
   plugins: [
     adonisjs({
-      entrypoints: [
-        'resources/css/app.css',
-        'resources/css/decks_created.css',
-        'resources/css/decks.css',
-        'resources/css/flashcard-detail.css',
-        'resources/css/flashcards.css',
-        'resources/css/flashcards_create.css',
-        'resources/css/home.css',
-        'resources/css/login.css',
-        'resources/css/register.css',
-        'resources/js/app.js',
-      ],
+      /**
+       * Entrypoints of your application. Each entrypoint will
+       * result in a separate bundle.
+       */
+      entrypoints: ['resources/css/app.css', 'resources/js/app.js'],
+
+      /**
+       * Paths to watch and reload the browser on file change
+       */
       reload: ['resources/views/**/*.edge'],
     }),
   ],
