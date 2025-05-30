@@ -1,42 +1,42 @@
-# Flash-Card_RomainSchertenleib
+# Flash-Card Application - Romain Schertenleib
+
+## 📚 Description du Projet
 
 ### Partie 1
-
-créée l'application flash card depuis de debut. l'application flash-card et une app qui permet d'apprendre interactivement des questions avec leur reponse.
+Création de l'application Flash Card depuis le début. L'application Flash-Card est une application qui permet d'apprendre interactivement des questions avec leurs réponses.
 
 ### Partie 2
+Finalisation des fonctionnalités de l'application Flash-Card, puis dockerisation de l'application et mise en production.
 
-Finir des fonctionnaliter de l'app flash-card
+---
 
-puis faire la dockerisation de l'application et pour finir la mettre en production.
+## 🛠️ Logiciels Requis
 
-## Logiciel requis
+L'application utilise :
 
-l'application utilisée:
+- **Node.js** : `v22.13.1`
+- **npm** : `10.9.2`
+- **Docker** pour les services :
+  - MySQL
+  - phpMyAdmin
+  - Node.js
 
-`node v22.13.1`
+---
 
-`npm 10.9.2`
+## 🚀 Lancer l'Application
 
-et Docker pour avoir : 
-- MYSQL
-- phpMYAdmin
-- Node.js
+### 1. Cloner le Repository
 
-## Lancer l'application
-
-Cloner le repo
-
-```
+```bash
 git clone https://github.com/romainschert/FlashCards.git
 cd ./FlashCards/app-Flash-Card-adonisjs
 ```
 
-Renommer .env.example en .env
+### 2. Configuration de l'Environnement
 
-Ajouter les variables d'environements:
+Renommer `.env.example` en `.env` et ajouter les variables d'environnement :
 
-```
+```env
 TZ=UTC
 PORT=3333
 HOST=localhost
@@ -49,67 +49,69 @@ DB_PORT=6034
 DB_USER=root
 DB_PASSWORD=root
 DB_DATABASE=app_adonis
-
 ```
-il est très important que les variables d'environements soit juste afin que le projet puisse demarer 
 
-``
+> ⚠️ **Important** : Il est crucial que les variables d'environnement soient correctes pour que le projet puisse démarrer.
 
-installer les dépendances:
+### 3. Installation des Dépendances
 
-```
+```bash
 npm install
 ```
 
-pour finir executer les deux dernière commande pour generer une clé d'application
+### 4. Génération de la Clé d'Application
 
-```
+```bash
 node ace generate:key
 npm run dev
 ```
 
-## dermarrer les containers docker 
+---
 
-Dans la racine du projet, la ou se trouve le fichier docker compose,
-ouvrir un terminal et executer cette commande 
+## 🐳 Démarrer les Containers Docker
 
-```
+Dans la racine du projet, où se trouve le fichier `docker-compose.yml`, ouvrir un terminal et exécuter :
+
+```bash
 docker compose up -d
 ```
 
-une fois cette commande fait il y aura container : 
+Une fois cette commande exécutée, trois containers seront créés :
 
-1) MYSQL
-2) PHPmyadmin
-3) l'application dockerisée 
+1. **MySQL** - Base de données
+2. **phpMyAdmin** - Interface d'administration de la base de données
+3. **Application dockerisée** - L'application Flash-Card
 
-## application en mode developement 
+---
 
-aller a la racine du projet et lancer la commande : 
+## 💻 Application en Mode Développement
 
-```
+Aller à la racine du projet et lancer la commande :
+
+```bash
 npm run dev
-
 ```
 
-et l'application sera disponible sur http://localhost:3333/
+L'application sera disponible sur : **http://localhost:3333/**
 
-Schema : 
-![alt text](image-2.png)
+### Schéma de l'Architecture
+![Schéma de l'architecture](image-2.png)
 
+---
 
-## Dockerisation 
- description des étapes nécessaires pour dockeriser une application AdonisJS avec une base de données MySQL, les migrations, les seeds, et un accès via le navigateur.
+## 🐋 Dockerisation
+
+Description des étapes nécessaires pour dockeriser une application AdonisJS avec une base de données MySQL, les migrations, les seeds, et un accès via le navigateur.
 
 ### Prérequis
-Docker et Docker Compose installés
-Un projet AdonisJS existant (node ace fonctionne)
-Une base MySQL utilisée par le projet
-Fichier .env configuré
-### Étape 1 : Dockerfile
-Dockerfile :
+- Docker et Docker Compose installés
+- Un projet AdonisJS existant (node ace fonctionne)
+- Une base MySQL utilisée par le projet
+- Fichier `.env` configuré
 
-```
+### Étape 1 : Dockerfile
+
+```dockerfile
 FROM node:20.11.1-alpine3.19
 
 # Création du répertoire de travail
@@ -139,11 +141,11 @@ EXPOSE 3333
 
 # Exécuter le script directement avec le chemin complet
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-
 ```
-### Etape 2 : script d'entrée
 
-```
+### Étape 2 : Script d'Entrée
+
+```bash
 #!/bin/sh
 set -e
 
@@ -168,9 +170,8 @@ echo "Copie des ressources..."
 mkdir -p build/resources/css
 mkdir -p build/resources/js
 
-# Copier les fichiers CSS (syntaxe shell/bash)
+# Copier les fichiers CSS
 echo "Copie des fichiers CSS..."
-
 [ -f "./resources/css/app.css" ] && cp "./resources/css/app.css" "./build/resources/css/app.css"
 [ -f "./resources/css/decks_created.css" ] && cp "./resources/css/decks_created.css" "./build/resources/css/decks_created.css"
 [ -f "./resources/css/flashcard-detail.css" ] && cp "./resources/css/flashcard-detail.css" "./build/resources/css/flashcard-detail.css"
@@ -190,14 +191,11 @@ npm ci --omit=dev
 echo "Démarrage de l'application..."
 cd build
 exec node bin/server.js
-
 ```
-
 
 ### Étape 3 : docker-compose.yml
 
-```
-
+```yaml
 version: '3.3'
 
 services:
@@ -258,45 +256,43 @@ services:
 
 volumes:
   dbdata:
-
-
 ```
-### recreate_dockers.sh
-si pendant la dockerisation vous rencontre des problemes et que vous les corrigers pour recrée le container il y a le
 
- script recreate_dockers.sh
- 
-### Schema 
+### Script de Recréation des Containers
 
-![alt text](image-1.png)
+Si pendant la dockerisation vous rencontrez des problèmes et que vous les corrigez, utilisez le script `recreate_dockers.sh` pour recréer les containers.
 
-# Staging 
+### Schéma Docker
+![Schéma Docker](image-1.png)
 
-## Render 
+---
 
-pour pouvoir mettre en production son projet il faut pour commancer crée un compte sur render.
+## 🌐 Mise en Production
 
-pendant la creation du compte il est demander de donner l'acces a render sur un repo git. la il faut mettre le repo de l'app a mettre en production.
+### Render
 
-1) Clicker sur add new 
-2) choisir Web service 
-3) choisir le bon repo git 
+Pour pouvoir mettre en production votre projet, il faut d'abord créer un compte sur Render.
+
+Pendant la création du compte, il est demandé de donner l'accès à Render sur un repository Git. Là, il faut mettre le repository de l'application à mettre en production.
+
+#### Configuration Render
+
+1. Cliquer sur **"Add New"**
+2. Choisir **"Web Service"**
+3. Choisir le bon repository Git
 
 #### Settings
 
- 1) mettre un nom 
- 2) mettre la branche main 
- 3) root Directory : app-Flash-Card-adonisjs
- 4) Dockerfile Path : app-Flash-Card-adonisjs/  ./Dockerfile
- 5) choisir l'instance Free
+1. **Name** : Mettre un nom pour votre service
+2. **Branch** : `main`
+3. **Root Directory** : `app-Flash-Card-adonisjs`
+4. **Dockerfile Path** : `app-Flash-Card-adonisjs/./Dockerfile`
+5. **Instance Type** : Choisir l'instance Free
+6. **Docker Build Context Directory** : `app-Flash-Card-adonisjs/.`
 
-6) pour les variables d'environement regarder la suite du Readme
-  
- 6) Docker Build Context Directory : app-Flash-Card-adonisjs/ .
+#### Variables d'Environnement
 
-#### variable d'environement 
-
-```
+```env
 TZ=UTC
 PORT=3333
 HOST=localhost
@@ -304,56 +300,74 @@ LOG_LEVEL=info
 APP_KEY=
 NODE_ENV=development
 SESSION_DRIVER=cookie
-DB_HOST= (propre a la database)
-DB_PORT= (propre a la database)
+DB_HOST=(propre à la database)
+DB_PORT=(propre à la database)
 DB_USER=root
-DB_PASSWORD= (propre a la database)
+DB_PASSWORD=(propre à la database)
 DB_DATABASE=db_adonis
 ```
 
-### Database 
+### Configuration de la Base de Données
 
-1) add new Postgres 
+1. **Add New** → **PostgreSQL**
 
-#### settings 
+#### Settings Database
 
-Name : postgres-Flash-card 
+- **Name** : `postgres-Flash-card`
+- **Database Name** : `db_adonis`
+- **User** : `root`
+- **Plan** : Free
 
-dbname : db_adonis
+2. Récupérer les informations de la base de données en cliquant dessus et mettre ces informations dans les variables d'environnement.
 
-user : root
+### Lancement de la Production
 
-Plan option : free
+Retourner sur la production et lancer **"Manual Deploy"** sur le dernier commit.
 
-1) recuperer les infos de la database en cliquant dessus et mettre ses infos dans les variable d'environement 
+Et voilà ! Votre application est déployée ! 🎉
 
-### lancement de la production 
+---
 
-retourner sur la production et lancer Manual Deploy sur le dernier commit 
+## ⚠️ Erreurs Rencontrées
 
-et voila votre application et deploiée 
+Le déploiement fonctionne, mais il y a une erreur qui revient en boucle malgré les tentatives pour la corriger (tentatives visibles sur GitHub).
 
+**Erreur :**
+```json
+{
+  "level": 50,
+  "time": 1748431461460,
+  "pid": 41,
+  "hostname": "srv-d0djqqidbo4c738kmbj0-hibernate-5b645545f9-dv8kw",
+  "request_id": "pw0og40a1v494bsdjnu0r3yh",
+  "err": {
+    "type": "EdgeError",
+    "message": "Cannot resolve \"/app/build/resources/views/partials/header.edge\". Make sure the file exists",
+    "stack": "Error: Cannot resolve \"/app/build/resources/views/partials/header.edge\". Make sure the file exists...",
+    "line": 13,
+    "col": 0,
+    "filename": "/app/build/resources/views/home.edge",
+    "code": "E_RUNTIME_EXCEPTION",
+    "status": 500
+  },
+  "msg": "Cannot resolve \"/app/build/resources/views/partials/header.edge\". Make sure the file exists"
+}
+```
 
-## erreur renconter 
+### Schéma de Production
+![Schéma de production](image-3.png)
 
-le deploiement marche. mais il y a une erreur qui revient en boucle malger les tentative pour la corriger ( tentative visible sur github ) 
+---
 
-erreur : {"level":50,"time":1748431461460,"pid":41,"hostname":"srv-d0djqqidbo4c738kmbj0-hibernate-5b645545f9-dv8kw","request_id":"pw0og40a1v494bsdjnu0r3yh","err":{"type":"EdgeError","message":"Cannot resolve \"/app/build/resources/views/partials/header.edge\". Make sure the file exists","stack":"Error: Cannot resolve \"/app/build/resources/views/partials/header.edge\". Make sure the file exists\n    at anonymous (/app/build/resources/views/home.edge:13:0)\n    at Template.reThrow (file:///app/node_modules/edge.js/build/chunk-DA7IVQFT.js:625:11)\n    at eval (eval at #wrapToFunction (file:///app/node_modules/edge.js/build/index.js:1298:14), <anonymous>:204:10)","line":13,"col":0,"filename":"/app/build/resources/views/home.edge","code":"E_RUNTIME_EXCEPTION","status":500},"x-request-id":"pw0og40a1v494bsdjnu0r3yh","msg":"Cannot resolve \"/app/build/resources/views/partials/header.edge\". Make sure the file exists"}
+## 🧪 Staging (sur Railway car pas possible sur Render)
 
-
-## schema 
-
-![alt text](image-3.png)
-
-# Staging ( sur railway car sur render c'est pas possible )
-### Je n'ai pas fait la partie staging mais voilà ce que j'aurais fais:
+> **Note :** Je n'ai pas fait la partie staging, mais voici ce que j'aurais fait :
 
 Le staging est un environnement intermédiaire entre le développement et la production qui permet de tester l'application dans des conditions similaires à la production avant le déploiement final.
 
+### Architecture de Staging
 
-## Architecture de staging
-
-### Structure des environnements
+#### Structure des Environnements
 
 ```
 ├── Development (local)
@@ -361,9 +375,9 @@ Le staging est un environnement intermédiaire entre le développement et la pro
 └── Production (live)
 ```
 
-### Configuration staging
+#### Configuration Staging
 
-**Variables d'environnement pour staging (.env.staging)** :
+**Variables d'environnement pour staging (`.env.staging`)** :
 
 ```env
 # Application
@@ -384,11 +398,9 @@ DB_DATABASE=flashcards_staging
 SESSION_DRIVER=cookie
 ```
 
----
+### Déploiement sur Railway (Staging)
 
-## Déploiement sur Railway (Staging)
-
-### 1. Création du service staging
+#### 1. Création du Service Staging
 
 ```bash
 # Créer une nouvelle branche staging
@@ -396,9 +408,7 @@ git checkout -b staging
 git push origin staging
 ```
 
-
-
-### 2. Base de données staging séparée
+#### 2. Base de Données Staging Séparée
 
 ```bash
 # Créer un service MySQL dédié au staging
@@ -408,7 +418,7 @@ MYSQL_USER=staging_user
 MYSQL_PASSWORD=secure_staging_password
 ```
 
-### 3. Scripts de déploiement staging
+#### 3. Scripts de Déploiement Staging
 
 **package.json** - Ajouter les scripts suivants :
 
@@ -425,11 +435,9 @@ MYSQL_PASSWORD=secure_staging_password
 }
 ```
 
----
+### Tests Automatisés en Staging
 
-## Tests automatisés en staging
-
-### 1. Tests d'intégration
+#### 1. Tests d'Intégration
 
 Créer un fichier `tests/staging/integration.spec.ts` :
 
@@ -466,7 +474,7 @@ test.group('Staging Integration Tests', () => {
 })
 ```
 
-### 2. Tests de performance
+#### 2. Tests de Performance
 
 ```typescript
 test.group('Performance Tests', () => {
@@ -484,11 +492,9 @@ test.group('Performance Tests', () => {
 })
 ```
 
----
+### Processus de Validation Staging
 
-## Processus de validation staging
-
-### 1. Checklist de déploiement
+#### 1. Checklist de Déploiement
 
 - [ ] **Code review** terminé et approuvé
 - [ ] **Tests unitaires** passent (100%)
@@ -498,9 +504,9 @@ test.group('Performance Tests', () => {
 - [ ] **Base de données staging** opérationnelle
 - [ ] **Monitoring** et logs activés
 
-### 2. Tests fonctionnels
+#### 2. Tests Fonctionnels
 
-#### Tests utilisateur
+**Tests Utilisateur :**
 - [ ] Inscription/Connexion utilisateur
 - [ ] Création de flashcards
 - [ ] Modification de flashcards
@@ -509,14 +515,14 @@ test.group('Performance Tests', () => {
 - [ ] Système de révision
 - [ ] Sauvegarde des progrès
 
-#### Tests de sécurité
+**Tests de Sécurité :**
 - [ ] Authentification
 - [ ] Autorisation
 - [ ] Protection CSRF
 - [ ] Validation des données
 - [ ] Sécurité des sessions
 
-### 3. Tests de charge
+#### 3. Tests de Charge
 
 ```bash
 # Utilisation d'Artillery pour les tests de charge
@@ -555,11 +561,9 @@ scenarios:
             back: "Answer"
 ```
 
----
+### Monitoring et Observabilité
 
-## Monitoring et observabilité
-
-### 1. Logs structurés
+#### 1. Logs Structurés
 
 ```typescript
 // config/logger.ts - Configuration pour staging
@@ -595,7 +599,7 @@ export default defineConfig({
 })
 ```
 
-### 2. Health checks
+#### 2. Health Checks
 
 ```typescript
 // app/controllers/health_controller.ts
@@ -622,6 +626,16 @@ export default class HealthController {
     }
   }
 }
-
 ```
 ## schema 
+![alt text](image-4.png)
+
+## 📝 Conclusion
+
+Ce projet présente une application Flash-Card complète avec :
+- ✅ Développement local
+- ✅ Dockerisation
+- ✅ Mise en production sur Render
+- 📋 Plan de staging (conceptuel)
+
+Les principales améliorations apportées concernent la correction orthographique, la structuration du contenu avec des sections claires, l'ajout d'émojis pour une meilleure lisibilité, et l'amélioration de la présentation générale du document.
