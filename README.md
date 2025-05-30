@@ -270,7 +270,7 @@ si pendant la dockerisation vous rencontre des problemes et que vous les corrige
 
 ![alt text](image-1.png)
 
-# Deploiement 
+# Staging 
 
 ## Render 
 
@@ -343,3 +343,285 @@ erreur : {"level":50,"time":1748431461460,"pid":41,"hostname":"srv-d0djqqidbo4c7
 
 ## schema 
 
+![alt text](image-3.png)
+
+# Staging ( sur railway car sur render c'est pas possible )
+### Je n'ai pas fait la partie staging mais voilà ce que j'aurais fais:
+
+Le staging est un environnement intermédiaire entre le développement et la production qui permet de tester l'application dans des conditions similaires à la production avant le déploiement final.
+
+
+## Architecture de staging
+
+### Structure des environnements
+
+```
+├── Development (local)
+├── Staging (test)        ← Nous sommes ici
+└── Production (live)
+```
+
+### Configuration staging
+
+**Variables d'environnement pour staging (.env.staging)** :
+
+```env
+# Application
+APP_KEY=your-staging-app-key-here
+NODE_ENV=staging
+HOST=0.0.0.0
+PORT=3333
+LOG_LEVEL=debug
+
+# Base de données de staging
+DB_HOST=staging-db-host
+DB_PORT=3306
+DB_USER=staging_user
+DB_PASSWORD=staging_secure_password
+DB_DATABASE=flashcards_staging
+
+# Sessions et sécurité
+SESSION_DRIVER=cookie
+```
+
+---
+
+## Déploiement sur Railway (Staging)
+
+### 1. Création du service staging
+
+```bash
+# Créer une nouvelle branche staging
+git checkout -b staging
+git push origin staging
+```
+
+
+
+### 2. Base de données staging séparée
+
+```bash
+# Créer un service MySQL dédié au staging
+# Variables à configurer dans Railway :
+MYSQL_DATABASE=flashcards_staging
+MYSQL_USER=staging_user
+MYSQL_PASSWORD=secure_staging_password
+```
+
+### 3. Scripts de déploiement staging
+
+**package.json** - Ajouter les scripts suivants :
+
+```json
+{
+  "scripts": {
+    "staging:build": "npm run build",
+    "staging:migrate": "node ace migration:run --force",
+    "staging:seed": "node ace db:seed --force",
+    "staging:deploy": "npm run staging:migrate && npm run staging:seed && npm start",
+    "staging:rollback": "node ace migration:rollback --force",
+    "staging:reset": "node ace migration:fresh --seed --force"
+  }
+}
+```
+
+---
+
+## Tests automatisés en staging
+
+### 1. Tests d'intégration
+
+Créer un fichier `tests/staging/integration.spec.ts` :
+
+```typescript
+import { test } from '@japa/runner'
+import { BaseSeeder } from '@adonisjs/lucid/seeders'
+
+test.group('Staging Integration Tests', () => {
+  test('should connect to staging database', async ({ assert }) => {
+    // Test de connexion à la base de données
+    const Database = (await import('@adonisjs/lucid/database')).default
+    const connection = await Database.connection()
+    assert.isTrue(connection.isConnected)
+  })
+
+  test('should run migrations successfully', async ({ assert }) => {
+    // Test des migrations
+    const { default: Migrator } = await import('@adonisjs/lucid/migrator')
+    const migrator = new Migrator(Database, Application, {
+      direction: 'up',
+      dryRun: false,
+    })
+    await migrator.run()
+    assert.isTrue(migrator.status === 'completed')
+  })
+
+  test('should seed data successfully', async ({ assert }) => {
+    // Test des seeders
+    // Vérifier que les données de test sont bien créées
+    const User = (await import('#models/user')).default
+    const users = await User.all()
+    assert.isTrue(users.length > 0)
+  })
+})
+```
+
+### 2. Tests de performance
+
+```typescript
+test.group('Performance Tests', () => {
+  test('should handle multiple concurrent users', async ({ assert }) => {
+    // Simuler 100 requêtes simultanées
+    const promises = Array(100).fill(null).map(() => 
+      fetch('https://flashcards-staging.yourdomain.com/api/health')
+    )
+    
+    const results = await Promise.all(promises)
+    const successfulRequests = results.filter(r => r.status === 200)
+    
+    assert.isTrue(successfulRequests.length >= 95) // 95% de succès minimum
+  })
+})
+```
+
+---
+
+## Processus de validation staging
+
+### 1. Checklist de déploiement
+
+- [ ] **Code review** terminé et approuvé
+- [ ] **Tests unitaires** passent (100%)
+- [ ] **Tests d'intégration** passent
+- [ ] **Migrations** testées et validées
+- [ ] **Variables d'environnement** configurées
+- [ ] **Base de données staging** opérationnelle
+- [ ] **Monitoring** et logs activés
+
+### 2. Tests fonctionnels
+
+#### Tests utilisateur
+- [ ] Inscription/Connexion utilisateur
+- [ ] Création de flashcards
+- [ ] Modification de flashcards
+- [ ] Suppression de flashcards
+- [ ] Navigation entre les cartes
+- [ ] Système de révision
+- [ ] Sauvegarde des progrès
+
+#### Tests de sécurité
+- [ ] Authentification
+- [ ] Autorisation
+- [ ] Protection CSRF
+- [ ] Validation des données
+- [ ] Sécurité des sessions
+
+### 3. Tests de charge
+
+```bash
+# Utilisation d'Artillery pour les tests de charge
+npm install -g artillery
+
+# Créer artillery-staging.yml
+artillery run artillery-staging.yml
+```
+
+**artillery-staging.yml** :
+
+```yaml
+config:
+  target: 'https://flashcards-staging.yourdomain.com'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+    - duration: 120
+      arrivalRate: 50
+  defaults:
+    headers:
+      Content-Type: 'application/json'
+
+scenarios:
+  - name: "Load test flashcards"
+    requests:
+      - get:
+          url: "/"
+      - get:
+          url: "/flashcards"
+      - post:
+          url: "/api/flashcards"
+          json:
+            title: "Test Card"
+            front: "Question"
+            back: "Answer"
+```
+
+---
+
+## Monitoring et observabilité
+
+### 1. Logs structurés
+
+```typescript
+// config/logger.ts - Configuration pour staging
+import { defineConfig } from '@adonisjs/logger'
+
+export default defineConfig({
+  default: 'app',
+  loggers: {
+    app: {
+      enabled: true,
+      name: 'flashcards-staging',
+      level: 'debug',
+      transport: {
+        targets: [
+          {
+            target: 'pino-pretty',
+            level: 'info',
+            options: {
+              colorize: true
+            }
+          },
+          {
+            target: 'pino/file',
+            level: 'error',
+            options: {
+              destination: './storage/logs/staging-errors.log'
+            }
+          }
+        ]
+      }
+    }
+  }
+})
+```
+
+### 2. Health checks
+
+```typescript
+// app/controllers/health_controller.ts
+export default class HealthController {
+  async check({ response }: HttpContext) {
+    const health = {
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      environment: 'staging',
+      database: await this.checkDatabase(),
+      memory: process.memoryUsage(),
+      uptime: process.uptime()
+    }
+    
+    return response.ok(health)
+  }
+  
+  private async checkDatabase() {
+    try {
+      await Database.rawQuery('SELECT 1')
+      return { status: 'connected' }
+    } catch (error) {
+      return { status: 'error', message: error.message }
+    }
+  }
+}
+
+```
+## schema 
