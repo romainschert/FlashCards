@@ -9,8 +9,8 @@ COPY package.json ./
 
 # Copie du code source
 COPY . .
-
-RUN rm -rf ./node_modules
+   
+RUN rm -rf ./node_moduless
 RUN rm -rf ./package-lock.json
 
 # Installation des dépendances avec npm directement
